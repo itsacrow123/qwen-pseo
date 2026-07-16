@@ -39,21 +39,41 @@ export class CloudflarePagesAdapter extends DeploymentProvider {
     
     logger.info('cloudflare-adapter', `Dispatching production payload to Cloudflare Pages Project: "${cfProject}"...`);
     
-    if (!accountId || !cfToken) {
-      throw new Error('Missing Cloudflare account ID or API token.');
+    if (!accountId || !cfToken || !cfProject) {
+      throw new Error('Missing Cloudflare account ID, API token, or Project Name.');
     }
     
     try {
+      const formData = new FormData();
+      
+      const buildFormData = async (dir, basePath = '') => {
+        const entries = await fs.readdir(dir, { withFileTypes: true });
+        for (const entry of entries) {
+          const fullPath = path.join(dir, entry.name);
+          const relativePath = basePath ? `${basePath}/${entry.name}` : entry.name;
+          if (entry.isDirectory()) {
+            await buildFormData(fullPath, relativePath);
+          } else {
+            const fileData = await fs.readFile(fullPath);
+            formData.append(relativePath, new Blob([fileData]));
+          }
+        }
+      };
+      
+      await buildFormData(pagesSrcDir);
+
       // Create a direct upload deployment via Cloudflare REST API
       const response = await fetch(`https://api.cloudflare.com/client/v4/accounts/${accountId}/pages/projects/${cfProject}/deployments`, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${cfToken}`
-        }
+        },
+        body: formData
       });
       
       if (!response.ok) {
-        throw new Error(`Cloudflare API returned status ${response.status}`);
+        const errorText = await response.text();
+        throw new Error(`Cloudflare API returned status ${response.status}: ${errorText}`);
       }
       
       return {
