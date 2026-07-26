@@ -1,0 +1,64 @@
+<section class="testimonials-section" aria-labelledby="testimonials-heading">
+  <div class="container">
+    <div class="section-header">
+      <h2 id="testimonials-heading" class="section-title">What Our Customers Say</h2>
+      <p class="section-desc">Thousands of satisfied customers trust us to protect their homes and businesses.</p>
+    </div>
+    
+    <div class="testimonials-grid">
+      <div class="testimonial-card">
+        <div class="testimonial-rating" aria-label="5 out of 5 stars">
+          ★★★★★
+        </div>
+        <blockquote class="testimonial-text">
+          "The technician was professional, knowledgeable, and took the time to explain everything. Our rodent problem is finally solved!"
+        </blockquote>
+        <div class="testimonial-author">
+          <span class="author-name">Sarah M.</span>
+          <span class="author-location">Phoenix, AZ</span>
+        </div>
+      </div>
+      
+      <div class="testimonial-card">
+        <div class="testimonial-rating" aria-label="5 out of 5 stars">
+          ★★★★★
+        </div>
+        <blockquote class="testimonial-text">
+          "Fast response for our termite emergency. The team was courteous and efficient. Highly recommend Guardian Pest Control!"
+        </blockquote>
+        <div class="testimonial-author">
+          <span class="author-name">Michael R.</span>
+          <span class="author-location">Atlanta, GA</span>
+        </div>
+      </div>
+      
+      <div class="testimonial-card">
+        <div class="testimonial-rating" aria-label="5 out of 5 stars">
+          ★★★★★
+        </div>
+        <blockquote class="testimonial-text">
+          "We've been using their quarterly service for 3 years. No more ants, spiders, or mosquitoes in our yard. Worth every penny!"
+        </blockquote>
+        <div class="testimonial-author">
+          <span class="author-name">Jennifer L.</span>
+          <span class="author-location">Dallas, TX</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+.testimonials-section { padding: 5rem 0; background: white; }
+.testimonials-grid { display: grid; gap: 2rem; grid-template-columns: 1fr; }
+.testimonial-card { padding: 2rem; background: var(--bg-light); border-radius: var(--radius-lg); }
+.testimonial-rating { color: #fbbf24; font-size: 1.25rem; margin-bottom: 1rem; letter-spacing: 0.25rem; }
+.testimonial-text { font-size: 1.1rem; color: var(--text); line-height: 1.7; font-style: italic; margin-bottom: 1.5rem; }
+.testimonial-author { display: flex; flex-direction: column; gap: 0.25rem; }
+.author-name { font-weight: 600; color: var(--text); }
+.author-location { font-size: 0.875rem; color: var(--text-light); }
+
+@media (min-width: 768px) {
+  .testimonials-grid { grid-template-columns: repeat(3, 1fr); }
+}
+</style>

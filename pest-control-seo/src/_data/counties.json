@@ -1,0 +1,116 @@
+[
+  {
+    "name": "Jefferson",
+    "state": "AL",
+    "cities": [
+      "Birmingham"
+    ]
+  },
+  {
+    "name": "Montgomery",
+    "state": "AL",
+    "cities": [
+      "Montgomery"
+    ]
+  },
+  {
+    "name": "Mobile",
+    "state": "AL",
+    "cities": [
+      "Mobile"
+    ]
+  },
+  {
+    "name": "Madison",
+    "state": "AL",
+    "cities": [
+      "Huntsville"
+    ]
+  },
+  {
+    "name": "Anchorage",
+    "state": "AK",
+    "cities": [
+      "Anchorage"
+    ]
+  },
+  {
+    "name": "Fairbanks North Star",
+    "state": "AK",
+    "cities": [
+      "Fairbanks"
+    ]
+  },
+  {
+    "name": "Juneau",
+    "state": "AK",
+    "cities": [
+      "Juneau"
+    ]
+  },
+  {
+    "name": "Maricopa",
+    "state": "AZ",
+    "cities": [
+      "Phoenix",
+      "Mesa",
+      "Scottsdale"
+    ]
+  },
+  {
+    "name": "Pima",
+    "state": "AZ",
+    "cities": [
+      "Tucson"
+    ]
+  },
+  {
+    "name": "Pulaski",
+    "state": "AR",
+    "cities": [
+      "Little Rock"
+    ]
+  },
+  {
+    "name": "Washington",
+    "state": "AR",
+    "cities": [
+      "Fayetteville"
+    ]
+  },
+  {
+    "name": "Sebastian",
+    "state": "AR",
+    "cities": [
+      "Fort Smith"
+    ]
+  },
+  {
+    "name": "Los Angeles",
+    "state": "CA",
+    "cities": [
+      "Los Angeles"
+    ]
+  },
+  {
+    "name": "San Francisco",
+    "state": "CA",
+    "cities": [
+      "San Francisco"
+    ]
+  },
+  {
+    "name": "San Diego",
+    "state": "CA",
+    "cities": [
+      "San Diego"
+    ]
+  },
+  {
+    "name": "Santa Clara",
+    "state": "CA",
+    "cities": [
+      "San Jose"
+    ]
+  }
+]

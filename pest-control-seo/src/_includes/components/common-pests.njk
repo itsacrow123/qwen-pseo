@@ -1,0 +1,45 @@
+<section class="common-pests-section" aria-labelledby="pests-heading">
+  <div class="container">
+    <div class="section-header">
+      <h2 id="pests-heading" class="section-title">Common Pests We Treat</h2>
+      <p class="section-desc">From ants to wildlife, our licensed technicians handle all types of pest problems with safe, effective solutions.</p>
+    </div>
+    
+    <div class="pests-grid">
+      {% set pests = [
+        { name: "Ants", icon: "🐜", link: "/pests/ants/" },
+        { name: "Termites", icon: "🪵", link: "/pests/termites/" },
+        { name: "Spiders", icon: "🕷️", link: "/pests/spiders/" },
+        { name: "Cockroaches", icon: "🪳", link: "/pests/cockroaches/" },
+        { name: "Mice & Rats", icon: "🐭", link: "/pests/mice/" },
+        { name: "Mosquitoes", icon: "🦟", link: "/pests/mosquitoes/" },
+        { name: "Bed Bugs", icon: "🛏️", link: "/pests/bed-bugs/" },
+        { name: "Wasps & Bees", icon: "🐝", link: "/pests/wasps/" }
+      ] %}
+      
+      {% for pest in pests %}
+      <a href="{{ pest.link }}" class="pest-card">
+        <span class="pest-icon" aria-hidden="true">{{ pest.icon }}</span>
+        <span class="pest-name">{{ pest.name }}</span>
+      </a>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<style>
+.common-pests-section { padding: 5rem 0; background: var(--bg-light); }
+.pests-grid { display: grid; gap: 1rem; grid-template-columns: repeat(2, 1fr); }
+.pest-card { display: flex; align-items: center; gap: 1rem; padding: 1.25rem; background: white; border-radius: var(--radius-lg); box-shadow: var(--shadow-sm); transition: all 0.2s; text-decoration: none; }
+.pest-card:hover { transform: translateY(-2px); box-shadow: var(--shadow); }
+.pest-icon { font-size: 2rem; }
+.pest-name { font-weight: 600; color: var(--text); }
+
+@media (min-width: 768px) {
+  .pests-grid { grid-template-columns: repeat(4, 1fr); }
+}
+
+@media (min-width: 1024px) {
+  .pests-grid { grid-template-columns: repeat(8, 1fr); }
+}
+</style>

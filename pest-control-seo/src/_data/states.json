@@ -1,0 +1,132 @@
+[
+  {
+    "name": "Alabama",
+    "abbreviation": "AL",
+    "capital": "Montgomery",
+    "population": 5024279,
+    "area_sq_miles": 52420,
+    "timezone": "America/Chicago",
+    "climate_zone": "Humid Subtropical",
+    "avg_temp_summer": 82,
+    "avg_temp_winter": 48,
+    "humidity_avg": 70,
+    "rainfall_annual_inches": 56,
+    "common_pests": ["fire-ants", "termites", "mosquitoes", "cockroaches", "spiders"],
+    "pest_seasonality": {
+      "spring": ["termites", "carpenter-ants", "mosquitoes"],
+      "summer": ["fire-ants", "mosquitoes", "wasps", "ticks"],
+      "fall": ["rodents", "spiders", "cockroaches"],
+      "winter": ["mice", "cockroaches", "termites"]
+    },
+    "regional_factors": {
+      "forests": "Extensive pine and hardwood forests",
+      "water_bodies": "Gulf Coast, Tennessee River, Alabama River",
+      "agriculture": "Cotton, peanuts, poultry",
+      "urban_centers": "Birmingham, Montgomery, Mobile, Huntsville"
+    }
+  },
+  {
+    "name": "Alaska",
+    "abbreviation": "AK",
+    "capital": "Juneau",
+    "population": 733391,
+    "area_sq_miles": 665384,
+    "timezone": "America/Anchorage",
+    "climate_zone": "Subarctic/Arctic",
+    "avg_temp_summer": 60,
+    "avg_temp_winter": 10,
+    "humidity_avg": 65,
+    "rainfall_annual_inches": 22,
+    "common_pests": ["mosquitoes", "rodents", "spiders", "carpenter-ants"],
+    "pest_seasonality": {
+      "spring": ["carpenter-ants", "spiders"],
+      "summer": ["mosquitoes", "rodents"],
+      "fall": ["rodents", "spiders"],
+      "winter": ["mice", "spiders"]
+    },
+    "regional_factors": {
+      "forests": "Boreal forest, temperate rainforest",
+      "water_bodies": "Pacific Ocean, Bering Sea, countless lakes",
+      "agriculture": "Limited, fishing industry dominant",
+      "urban_centers": "Anchorage, Fairbanks, Juneau"
+    }
+  },
+  {
+    "name": "Arizona",
+    "abbreviation": "AZ",
+    "capital": "Phoenix",
+    "population": 7151502,
+    "area_sq_miles": 113990,
+    "timezone": "America/Phoenix",
+    "climate_zone": "Desert/Semi-arid",
+    "avg_temp_summer": 95,
+    "avg_temp_winter": 55,
+    "humidity_avg": 30,
+    "rainfall_annual_inches": 13,
+    "common_pests": ["scorpions", "termites", "ants", "spiders", "rodents"],
+    "pest_seasonality": {
+      "spring": ["scorpions", "ants", "termites"],
+      "summer": ["scorpions", "spiders", "ants"],
+      "fall": ["rodents", "spiders", "scorpions"],
+      "winter": ["rodents", "termites", "spiders"]
+    },
+    "regional_factors": {
+      "forests": "Ponderosa pine forests in north",
+      "water_bodies": "Colorado River, Salt River",
+      "agriculture": "Cotton, lettuce, cattle",
+      "urban_centers": "Phoenix, Tucson, Mesa, Chandler"
+    }
+  },
+  {
+    "name": "Arkansas",
+    "abbreviation": "AR",
+    "capital": "Little Rock",
+    "population": 3011524,
+    "area_sq_miles": 53179,
+    "timezone": "America/Chicago",
+    "climate_zone": "Humid Subtropical",
+    "avg_temp_summer": 80,
+    "avg_temp_winter": 45,
+    "humidity_avg": 68,
+    "rainfall_annual_inches": 50,
+    "common_pests": ["termites", "fire-ants", "mosquitoes", "spiders", "rodents"],
+    "pest_seasonality": {
+      "spring": ["termites", "fire-ants", "mosquitoes"],
+      "summer": ["mosquitoes", "fire-ants", "spiders"],
+      "fall": ["rodents", "spiders", "cockroaches"],
+      "winter": ["mice", "cockroaches", "termites"]
+    },
+    "regional_factors": {
+      "forests": "Ozark National Forest, Ouachita National Forest",
+      "water_bodies": "Mississippi River, Arkansas River",
+      "agriculture": "Rice, soybeans, cotton, poultry",
+      "urban_centers": "Little Rock, Fayetteville, Fort Smith"
+    }
+  },
+  {
+    "name": "California",
+    "abbreviation": "CA",
+    "capital": "Sacramento",
+    "population": 39538223,
+    "area_sq_miles": 163695,
+    "timezone": "America/Los_Angeles",
+    "climate_zone": "Mediterranean/Desert",
+    "avg_temp_summer": 75,
+    "avg_temp_winter": 50,
+    "humidity_avg": 55,
+    "rainfall_annual_inches": 23,
+    "common_pests": ["termites", "ants", "rodents", "spiders", "bed-bugs"],
+    "pest_seasonality": {
+      "spring": ["termites", "ants", "spiders"],
+      "summer": ["ants", "spiders", "rodents"],
+      "fall": ["rodents", "spiders", "ants"],
+      "winter": ["rodents", "termites", "spiders"]
+    },
+    "regional_factors": {
+      "forests": "Redwood forests, Sierra Nevada forests",
+      "water_bodies": "Pacific Ocean, Sacramento River, Colorado River",
+      "agriculture": "Almonds, grapes, lettuce, dairy",
+      "urban_centers": "Los Angeles, San Francisco, San Diego, San Jose"
+    }
+  }
+]

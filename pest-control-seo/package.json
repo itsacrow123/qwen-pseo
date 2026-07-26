@@ -1,0 +1,27 @@
+{
+  "name": "pest-control-seo",
+  "version": "1.0.0",
+  "description": "Enterprise Programmatic SEO Engine for USA Pest Control - 50,000+ Location Pages",
+  "main": "index.js",
+  "scripts": {
+    "build": "eleventy",
+    "serve": "eleventy --serve",
+    "start": "eleventy --serve --port=8080",
+    "debug": "DEBUG=Eleventy* eleventy",
+    "generate-data": "node src/_utils/generate-location-data.js",
+    "validate": "node src/_utils/validate-pages.js"
+  },
+  "keywords": [
+    "pest-control",
+    "programmatic-seo",
+    "eleventy",
+    "local-seo",
+    "enterprise"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@11ty/eleventy": "^3.1.6",
+    "luxon": "^3.7.2"
+  }
+}

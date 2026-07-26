@@ -1,0 +1,43 @@
+{
+  "name": "Guardian Pest Control",
+  "tagline": "Protecting Homes & Businesses Across America",
+  "description": "Professional pest control services with licensed technicians, EPA-safe treatments, and guaranteed results. Serving residential and commercial properties nationwide.",
+  "url": "https://www.guardianpestcontrol.com",
+  "phone": "1-800-PEST-GO",
+  "email": "service@guardianpestcontrol.com",
+  "address": {
+    "street": "123 Pest Control Blvd",
+    "city": "Nationwide",
+    "state": "USA",
+    "zip": "00000"
+  },
+  "license": {
+    "number": "PC-2024-USA",
+    "state": "Licensed in all 50 states"
+  },
+  "insurance": "Fully insured and bonded",
+  "certifications": [
+    "EPA Certified",
+    "National Pest Management Association Member",
+    "QualityPro Certified",
+    "GreenPro Certified"
+  ],
+  "serviceAreas": "All 50 States",
+  "emergencyService": true,
+  "emergencyHours": "24/7 Emergency Service Available",
+  "trustBadges": [
+    "Licensed & Insured",
+    "EPA-Safe Treatments",
+    "Family & Pet Safe",
+    "Same-Day Service",
+    "100% Guarantee",
+    "Background-Checked Technicians"
+  ],
+  "social": {
+    "facebook": "https://facebook.com/guardianpestcontrol",
+    "twitter": "https://twitter.com/guardianpest",
+    "instagram": "https://instagram.com/guardianpestcontrol",
+    "linkedin": "https://linkedin.com/company/guardian-pest-control",
+    "youtube": "https://youtube.com/guardianpestcontrol"
+  }
+}

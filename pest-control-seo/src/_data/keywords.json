@@ -1,0 +1,202 @@
+{
+  "primary": [
+    {
+      "keyword": "Pest Control {city} {state}",
+      "priority": 100,
+      "placement": ["title", "h1", "hero", "opening", "meta-title"],
+      "intent": "transactional",
+      "synonyms": ["Exterminator {city}", "Pest Management {city}", "Bug Control {city}"]
+    },
+    {
+      "keyword": "Exterminator in {city} {state_abbrev}",
+      "priority": 95,
+      "placement": ["h2", "meta-description"],
+      "intent": "transactional",
+      "synonyms": ["Pest Exterminator", "Bug Exterminator"]
+    },
+    {
+      "keyword": "{service} {city}",
+      "priority": 90,
+      "placement": ["h2", "service-sections"],
+      "intent": "transactional",
+      "services": ["termite-control", "rodent-control", "mosquito-control", "bed-bug-treatment", "ant-control", "spider-control", "cockroach-control", "wasp-removal"]
+    }
+  ],
+  "secondary": [
+    {
+      "keyword": "Local pest control company",
+      "priority": 80,
+      "placement": ["h2", "about-section"],
+      "intent": "informational"
+    },
+    {
+      "keyword": "Residential pest control",
+      "priority": 75,
+      "placement": ["h3", "residential-section"],
+      "intent": "transactional"
+    },
+    {
+      "keyword": "Commercial pest control",
+      "priority": 75,
+      "placement": ["h3", "commercial-section"],
+      "intent": "transactional"
+    },
+    {
+      "keyword": "Emergency pest control",
+      "priority": 85,
+      "placement": ["h2", "emergency-section"],
+      "intent": "transactional"
+    }
+  ],
+  "seasonal": [
+    {
+      "keyword": "Spring pest control",
+      "priority": 70,
+      "season": "spring",
+      "placement": ["seasonal-section"],
+      "intent": "informational"
+    },
+    {
+      "keyword": "Summer mosquito control",
+      "priority": 75,
+      "season": "summer",
+      "placement": ["seasonal-section"],
+      "intent": "transactional"
+    },
+    {
+      "keyword": "Fall rodent prevention",
+      "priority": 75,
+      "season": "fall",
+      "placement": ["seasonal-section"],
+      "intent": "informational"
+    },
+    {
+      "keyword": "Winter pest protection",
+      "priority": 70,
+      "season": "winter",
+      "placement": ["seasonal-section"],
+      "intent": "informational"
+    }
+  ],
+  "pest-specific": [
+    {
+      "keyword": "Termite inspection",
+      "priority": 85,
+      "pest": "termites",
+      "placement": ["service-detail"],
+      "intent": "transactional"
+    },
+    {
+      "keyword": "Mouse extermination",
+      "priority": 85,
+      "pest": "mice",
+      "placement": ["service-detail"],
+      "intent": "transactional"
+    },
+    {
+      "keyword": "Rat removal",
+      "priority": 85,
+      "pest": "rats",
+      "placement": ["service-detail"],
+      "intent": "transactional"
+    },
+    {
+      "keyword": "Ant treatment",
+      "priority": 80,
+      "pest": "ants",
+      "placement": ["service-detail"],
+      "intent": "transactional"
+    },
+    {
+      "keyword": "Spider control",
+      "priority": 80,
+      "pest": "spiders",
+      "placement": ["service-detail"],
+      "intent": "transactional"
+    },
+    {
+      "keyword": "Cockroach extermination",
+      "priority": 85,
+      "pest": "cockroaches",
+      "placement": ["service-detail"],
+      "intent": "transactional"
+    },
+    {
+      "keyword": "Mosquito spraying",
+      "priority": 80,
+      "pest": "mosquitoes",
+      "placement": ["service-detail"],
+      "intent": "transactional"
+    },
+    {
+      "keyword": "Bed bug heat treatment",
+      "priority": 90,
+      "pest": "bed-bugs",
+      "placement": ["service-detail"],
+      "intent": "transactional"
+    },
+    {
+      "keyword": "Wasp nest removal",
+      "priority": 85,
+      "pest": "wasps",
+      "placement": ["service-detail"],
+      "intent": "transactional"
+    },
+    {
+      "keyword": "Flea treatment",
+      "priority": 80,
+      "pest": "fleas",
+      "placement": ["service-detail"],
+      "intent": "transactional"
+    },
+    {
+      "keyword": "Tick control",
+      "priority": 80,
+      "pest": "ticks",
+      "placement": ["service-detail"],
+      "intent": "transactional"
+    }
+  ],
+  "local-intent": [
+    {
+      "keyword": "Pest control near me",
+      "priority": 90,
+      "placement": ["meta-description", "opening"],
+      "intent": "transactional"
+    },
+    {
+      "keyword": "{county} County pest control",
+      "priority": 85,
+      "placement": ["h2", "service-area-section"],
+      "intent": "transactional"
+    },
+    {
+      "keyword": "Best pest control in {state}",
+      "priority": 75,
+      "placement": ["trust-section"],
+      "intent": "informational"
+    }
+  ],
+  "lsI": [
+    "licensed pest control",
+    "insured exterminator",
+    "EPA-approved treatments",
+    "pet-safe pest control",
+    "family-friendly pest management",
+    "organic pest control",
+    "green pest solutions",
+    "integrated pest management",
+    "IPM services",
+    "pest prevention",
+    "wildlife exclusion",
+    "attic cleanup",
+    "crawl space encapsulation",
+    "mosquito barrier treatment",
+    "termite bait system",
+    "rodent proofing",
+    "pest inspection",
+    "quarterly pest service",
+    "monthly pest control",
+    "one-time pest treatment"
+  ]
+}

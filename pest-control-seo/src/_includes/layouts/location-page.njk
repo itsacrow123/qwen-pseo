@@ -1,0 +1,308 @@
+---
+layout: layouts/base.njk
+---
+
+{% set cityTitle = city.name ~ ", " ~ state.abbreviation %}
+{% set h1Title = "Pest Control in " ~ city.name ~ ", " ~ state.name %}
+
+{% block meta %}
+<title>{{ h1Title }} | {{ site.name }}</title>
+<meta name="description" content="Professional pest control services in {{ city.name }}, {{ state.abbreviation }}. Licensed technicians, EPA-safe treatments, same-day service. Call for free inspection: {{ site.phone }}">
+<meta name="keywords" content="pest control {{ city.name }}, exterminator {{ city.name }}, bug control {{ state.abbreviation }}, termite treatment {{ city.name }}, rodent control {{ county.name }} County">
+{% endblock %}
+
+<!-- Location Page Hero -->
+<section class="location-hero" aria-label="Local pest control services">
+  <div class="hero-bg" aria-hidden="true">
+    <img src="/assets/images/location-hero.jpg" alt="" loading="eager" fetchpriority="high">
+    <div class="hero-overlay"></div>
+  </div>
+  
+  <div class="container hero-content">
+    <div class="hero-text">
+      <!-- Local Weather Widget -->
+      <div id="weather-widget" class="local-weather" data-lat="{{ city.lat }}" data-lng="{{ city.lng }}">
+        <span class="loading">Loading local weather...</span>
+      </div>
+      
+      <!-- Local Time -->
+      <p class="local-time-display">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <circle cx="12" cy="12" r="10"/>
+          <polyline points="12 6 12 12 16 14"/>
+        </svg>
+        <span class="local-time" data-timezone="{{ state.timezone }}"></span>
+      </p>
+      
+      <h1 class="hero-title">{{ h1Title }}</h1>
+      <p class="hero-subtitle">Trusted pest control serving {{ city.name }} and {{ county.name }} County</p>
+      
+      <div class="hero-cta">
+        <a href="tel:{{ site.phone | formatPhone }}" class="btn btn-primary btn-lg">Call {{ site.phone }}</a>
+        <a href="/quote/" class="btn btn-secondary btn-lg">Get Free Quote</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Main Content -->
+<article class="location-content">
+  <div class="container">
+    
+    <!-- Opening Section with Keyword Optimization -->
+    <section class="content-section" aria-labelledby="intro-heading">
+      <h2 id="intro-heading" class="sr-only">Introduction</h2>
+      <p class="lead-paragraph">
+        Looking for reliable <strong>pest control in {{ city.name }}, {{ state.abbreviation }}</strong>? 
+        Guardian Pest Control provides professional extermination services to homeowners and businesses throughout 
+        {{ county.name }} County. Our licensed technicians understand the unique pest challenges facing 
+        {{ state.name }} residents, from {{ state.commonPests[0] | replace("-", " ") }} to {{ state.commonPests[1] | replace("-", " ") }}.
+      </p>
+    </section>
+    
+    <!-- Local Climate & Pest Pressure -->
+    <section class="content-section climate-section" aria-labelledby="climate-heading">
+      <h2 id="climate-heading">Why {{ city.name }} Has Unique Pest Challenges</h2>
+      
+      <div class="climate-grid">
+        <div class="climate-info">
+          <h3>Local Climate Factors</h3>
+          <ul class="climate-list">
+            <li><strong>Climate Zone:</strong> {{ state.climate_zone }}</li>
+            <li><strong>Average Summer Temp:</strong> {{ state.avg_temp_summer }}°F</li>
+            <li><strong>Average Winter Temp:</strong> {{ state.avg_temp_winter }}°F</li>
+            <li><strong>Annual Rainfall:</strong> {{ state.rainfall_annual_inches }} inches</li>
+            <li><strong>Average Humidity:</strong> {{ state.humidity_avg }}%</li>
+          </ul>
+        </div>
+        
+        <div class="pest-pressure">
+          <h3>How Climate Affects Pests</h3>
+          <p>The {{ state.climate_zone | lower }} climate of {{ state.name }} creates ideal conditions for various pests year-round. 
+          High humidity levels (averaging {{ state.humidity_avg }}%) combined with warm temperatures encourage 
+          {{ state.commonPests[0] | replace("-", " ") }} activity, while the mild winters allow many pests to remain active even during colder months.</p>
+          
+          {% if state.regional_factors.water_bodies %}
+          <p>Nearby water sources like {{ state.regional_factors.water_bodies }} contribute to mosquito breeding and attract moisture-loving pests.</p>
+          {% endif %}
+        </div>
+      </div>
+    </section>
+    
+    <!-- Seasonal Pest Calendar -->
+    <section class="content-section seasonal-section" aria-labelledby="seasonal-heading">
+      <h2 id="seasonal-heading">Seasonal Pest Activity in {{ city.name }}</h2>
+      
+      <div class="seasonal-grid">
+        {% for season, pests in state.pest_seasonality %}
+        <div class="season-card">
+          <h3 class="season-title">{{ season | title }} Pests</h3>
+          <ul class="season-pests">
+            {% for pest in pests %}
+            <li>{{ pest | replace("-", " ") | titleCase }}</li>
+            {% endfor %}
+          </ul>
+          <p class="season-desc">{{ getSeasonalDescription(season, pests, state) }}</p>
+        </div>
+        {% endfor %}
+      </div>
+    </section>
+    
+    <!-- Common Local Pests -->
+    <section class="content-section pests-section" aria-labelledby="local-pests-heading">
+      <h2 id="local-pests-heading">Common Pests in {{ county.name }} County</h2>
+      
+      <div class="pest-detail-grid">
+        {% for pest in state.common_pests | slice(0, 6) %}
+        <div class="pest-detail-card">
+          <h3>{{ pest | replace("-", " ") | titleCase }}</h3>
+          <p>{{ getPestDescription(pest, state) }}</p>
+          <a href="/pests/{{ pest }}/" class="pest-link">Learn about {{ pest | replace("-", " ") }} treatment →</a>
+        </div>
+        {% endfor %}
+      </div>
+    </section>
+    
+    <!-- Services Section -->
+    <section class="content-section services-section" aria-labelledby="services-heading">
+      <h2 id="services-heading">Our {{ city.name }} Pest Control Services</h2>
+      
+      <div class="services-list">
+        <div class="service-item">
+          <h3>Residential Pest Control</h3>
+          <p>Complete home protection with quarterly treatments targeting ants, spiders, roaches, and other common household pests.</p>
+        </div>
+        <div class="service-item">
+          <h3>Commercial Pest Control</h3>
+          <p>Compliant pest management for restaurants, warehouses, offices, and healthcare facilities in {{ city.name }}.</p>
+        </div>
+        <div class="service-item">
+          <h3>Termite Inspection & Treatment</h3>
+          <p>Protect your investment with thorough termite inspections and effective treatment options including bait systems.</p>
+        </div>
+        <div class="service-item">
+          <h3>Mosquito Control</h3>
+          <p>Enjoy your outdoor spaces with our barrier spray treatments that eliminate mosquitoes for up to 21 days.</p>
+        </div>
+        <div class="service-item">
+          <h3>Rodent Exclusion</h3>
+          <p>Humane removal and exclusion services to keep mice and rats out of your {{ city.name }} property permanently.</p>
+        </div>
+        <div class="service-item">
+          <h3>Emergency Pest Control</h3>
+          <p>Same-day service available for urgent pest problems. We're here when you need us most.</p>
+        </div>
+      </div>
+    </section>
+    
+    <!-- Nearby Cities Section -->
+    <section class="content-section nearby-section" aria-labelledby="nearby-heading">
+      <h2 id="nearby-heading">Pest Control Near {{ city.name }}</h2>
+      <p>We also serve these nearby communities in {{ county.name }} County:</p>
+      
+      <div class="nearby-cities-grid">
+        {% set nearby = cities | nearbyCities(city, 8) %}
+        {% for nearbyCity in nearby %}
+        <a href="/{{ state.abbreviation | slugify }}/{{ nearbyCity.slug }}/" class="nearby-city-link">
+          {{ nearbyCity.name }} ({{ nearbyCity.distance }} mi)
+        </a>
+        {% endfor %}
+      </div>
+    </section>
+    
+    <!-- FAQ Section -->
+    <section class="content-section faq-section" aria-labelledby="faq-heading">
+      <h2 id="faq-heading">Frequently Asked Questions</h2>
+      
+      <div class="faq-list">
+        <details class="faq-item">
+          <summary>How much does pest control cost in {{ city.name }}?</summary>
+          <p>Pricing varies based on property size, pest type, and treatment needed. Most residential treatments start at $99-$149. Contact us for a free, no-obligation quote specific to your situation.</p>
+        </details>
+        
+        <details class="faq-item">
+          <summary>Are your treatments safe for pets and children?</summary>
+          <p>Yes! We use EPA-approved products and follow strict safety protocols. Our technicians will provide specific instructions for your family and pets after treatment.</p>
+        </details>
+        
+        <details class="faq-item">
+          <summary>How quickly can you respond to my pest problem?</summary>
+          <p>We offer same-day service for most emergency situations in {{ city.name }} and surrounding areas. For non-emergencies, we typically schedule within 24-48 hours.</p>
+        </details>
+        
+        <details class="faq-item">
+          <summary>Do you offer guarantees on your pest control services?</summary>
+          <p>Absolutely. All our treatments come with a 100% satisfaction guarantee. If pests return between scheduled treatments, we'll re-treat at no additional cost.</p>
+        </details>
+        
+        <details class="faq-item">
+          <summary>What pests are most common in {{ city.name }} during {{ "" | getCurrentSeason() }}?</summary>
+          <p>During {{ "" | getCurrentSeason() }}, {{ city.name }} residents commonly deal with {{ getCurrentSeasonPests(state, "" | getCurrentSeason()) | join(", ") }}. These pests are particularly active due to seasonal conditions.</p>
+        </details>
+      </div>
+    </section>
+    
+  </div>
+</article>
+
+<!-- Map Section -->
+<section class="map-section" aria-label="Service area map">
+  <div class="container">
+    <h2>Serving {{ city.name }} and {{ county.name }} County</h2>
+    <div class="map-container">
+      <iframe 
+        src="https://www.openstreetmap.org/export/embed.html?bbox={{ city.lng - 0.1 }},{{ city.lat - 0.1 }},{{ city.lng + 0.1 }},{{ city.lat + 0.1 }}&layer=mapnik&marker={{ city.lat }},{{ city.lng }}"
+        width="100%"
+        height="400"
+        style="border:0; border-radius: var(--radius-lg);"
+        loading="lazy"
+        title="Map showing {{ city.name }}, {{ state.name }}"
+        referrerpolicy="no-referrer-when-downgrade">
+      </iframe>
+    </div>
+  </div>
+</section>
+
+<style>
+.location-hero { position: relative; min-height: 500px; display: flex; align-items: center; background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%); overflow: hidden; }
+.hero-bg { position: absolute; inset: 0; }
+.hero-bg img { width: 100%; height: 100%; object-fit: cover; opacity: 0.3; }
+.hero-overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.3); }
+.hero-content { position: relative; z-index: 1; max-width: 800px; }
+.local-weather { display: inline-block; background: rgba(255,255,255,0.2); padding: 0.5rem 1rem; border-radius: 9999px; color: white; margin-bottom: 1rem; font-size: 0.875rem; }
+.local-time-display { display: inline-flex; align-items: center; gap: 0.5rem; color: rgba(255,255,255,0.9); font-size: 0.875rem; margin-bottom: 1rem; }
+.hero-title { font-size: clamp(2.5rem, 6vw, 4rem); font-weight: 700; color: white; margin-bottom: 1rem; line-height: 1.1; }
+.hero-subtitle { font-size: 1.25rem; color: rgba(255,255,255,0.9); margin-bottom: 2rem; }
+.hero-cta { display: flex; gap: 1rem; flex-wrap: wrap; }
+.location-content { padding: 4rem 0; }
+.content-section { margin-bottom: 4rem; }
+.lead-paragraph { font-size: 1.25rem; line-height: 1.8; color: var(--text-light); max-width: 800px; }
+.climate-grid { display: grid; gap: 2rem; grid-template-columns: 1fr; }
+.climate-list { list-style: none; }
+.climate-list li { padding: 0.5rem 0; border-bottom: 1px solid var(--border); }
+.seasonal-grid { display: grid; gap: 1.5rem; grid-template-columns: repeat(2, 1fr); }
+.season-card { padding: 1.5rem; background: var(--bg-light); border-radius: var(--radius-lg); }
+.season-title { font-size: 1.1rem; font-weight: 600; color: var(--primary); margin-bottom: 0.75rem; text-transform: capitalize; }
+.season-pests { list-style: none; display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1rem; }
+.season-pests li { background: white; padding: 0.25rem 0.75rem; border-radius: 9999px; font-size: 0.875rem; }
+.pest-detail-grid { display: grid; gap: 1.5rem; grid-template-columns: 1fr; }
+.pest-detail-card { padding: 1.5rem; border: 1px solid var(--border); border-radius: var(--radius-lg); }
+.pest-detail-card h3 { color: var(--primary); margin-bottom: 0.5rem; }
+.pest-link { color: var(--secondary); font-weight: 600; display: inline-block; margin-top: 1rem; }
+.services-list { display: grid; gap: 1.5rem; }
+.service-item { padding: 1.5rem; background: var(--bg-light); border-radius: var(--radius-lg); border-left: 4px solid var(--primary); }
+.nearby-cities-grid { display: flex; flex-wrap: wrap; gap: 0.75rem; }
+.nearby-city-link { padding: 0.5rem 1rem; background: white; border: 1px solid var(--border); border-radius: var(--radius); color: var(--text); transition: all 0.2s; }
+.nearby-city-link:hover { background: var(--primary); color: white; border-color: var(--primary); }
+.faq-list { display: flex; flex-direction: column; gap: 1rem; }
+.faq-item { background: var(--bg-light); border-radius: var(--radius-lg); overflow: hidden; }
+.faq-item summary { padding: 1.25rem; cursor: pointer; font-weight: 600; list-style: none; display: flex; justify-content: space-between; align-items: center; }
+.faq-item summary::-webkit-details-marker { display: none; }
+.faq-item summary::after { content: "+"; font-size: 1.5rem; color: var(--primary); }
+.faq-item[open] summary::after { content: "−"; }
+.faq-item p { padding: 0 1.25rem 1.25rem; color: var(--text-light); line-height: 1.7; }
+.map-section { padding: 4rem 0; background: var(--bg-light); }
+.map-section h2 { text-align: center; margin-bottom: 2rem; }
+
+@media (min-width: 768px) {
+  .climate-grid { grid-template-columns: 1fr 1fr; }
+  .seasonal-grid { grid-template-columns: repeat(4, 1fr); }
+  .pest-detail-grid { grid-template-columns: repeat(2, 1fr); }
+  .services-list { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (min-width: 1024px) {
+  .pest-detail-grid { grid-template-columns: repeat(3, 1fr); }
+}
+</style>
+
+{% block schema %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "PestControl",
+  "name": "{{ site.name }} - {{ city.name }}",
+  "description": "Professional pest control services in {{ city.name }}, {{ state.abbreviation }}",
+  "url": "{{ site.url }}{{ page.url }}",
+  "telephone": "{{ site.phone | formatPhone }}",
+  "areaServed": {
+    "@type": "City",
+    "name": "{{ city.name }}",
+    "containedInPlace": {
+      "@type": "AdministrativeArea",
+      "name": "{{ county.name }} County"
+    }
+  },
+  "hasOfferCatalog": {
+    "@type": "OfferCatalog",
+    "name": "Pest Control Services in {{ city.name }}",
+    "itemListElement": [
+      {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Residential Pest Control"}},
+      {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Commercial Pest Control"}},
+      {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Termite Control"}},
+      {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Mosquito Control"}}
+    ]
+  }
+}
+</script>
+{% endblock %}

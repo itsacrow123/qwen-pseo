@@ -1,0 +1,164 @@
+[
+  {
+    "name": "Birmingham",
+    "slug": "birmingham",
+    "county": "Jefferson",
+    "lat": 33.5207,
+    "lng": -86.8025,
+    "population": 200733,
+    "state": "AL"
+  },
+  {
+    "name": "Montgomery",
+    "slug": "montgomery",
+    "county": "Montgomery",
+    "lat": 32.3668,
+    "lng": -86.3,
+    "population": 200603,
+    "state": "AL"
+  },
+  {
+    "name": "Mobile",
+    "slug": "mobile",
+    "county": "Mobile",
+    "lat": 30.6954,
+    "lng": -88.0399,
+    "population": 187041,
+    "state": "AL"
+  },
+  {
+    "name": "Huntsville",
+    "slug": "huntsville",
+    "county": "Madison",
+    "lat": 34.7304,
+    "lng": -86.5861,
+    "population": 215006,
+    "state": "AL"
+  },
+  {
+    "name": "Anchorage",
+    "slug": "anchorage",
+    "county": "Anchorage",
+    "lat": 61.2181,
+    "lng": -149.9003,
+    "population": 291247,
+    "state": "AK"
+  },
+  {
+    "name": "Fairbanks",
+    "slug": "fairbanks",
+    "county": "Fairbanks North Star",
+    "lat": 64.8378,
+    "lng": -147.7164,
+    "population": 32515,
+    "state": "AK"
+  },
+  {
+    "name": "Juneau",
+    "slug": "juneau",
+    "county": "Juneau",
+    "lat": 58.3019,
+    "lng": -134.4197,
+    "population": 32255,
+    "state": "AK"
+  },
+  {
+    "name": "Phoenix",
+    "slug": "phoenix",
+    "county": "Maricopa",
+    "lat": 33.4484,
+    "lng": -112.074,
+    "population": 1608139,
+    "state": "AZ"
+  },
+  {
+    "name": "Tucson",
+    "slug": "tucson",
+    "county": "Pima",
+    "lat": 32.2226,
+    "lng": -110.9747,
+    "population": 548073,
+    "state": "AZ"
+  },
+  {
+    "name": "Mesa",
+    "slug": "mesa",
+    "county": "Maricopa",
+    "lat": 33.4152,
+    "lng": -111.8315,
+    "population": 504258,
+    "state": "AZ"
+  },
+  {
+    "name": "Scottsdale",
+    "slug": "scottsdale",
+    "county": "Maricopa",
+    "lat": 33.4942,
+    "lng": -111.9261,
+    "population": 258069,
+    "state": "AZ"
+  },
+  {
+    "name": "Little Rock",
+    "slug": "little-rock",
+    "county": "Pulaski",
+    "lat": 34.7465,
+    "lng": -92.2896,
+    "population": 198541,
+    "state": "AR"
+  },
+  {
+    "name": "Fayetteville",
+    "slug": "fayetteville",
+    "county": "Washington",
+    "lat": 36.0626,
+    "lng": -94.1574,
+    "population": 93268,
+    "state": "AR"
+  },
+  {
+    "name": "Fort Smith",
+    "slug": "fort-smith",
+    "county": "Sebastian",
+    "lat": 35.3859,
+    "lng": -94.3985,
+    "population": 88037,
+    "state": "AR"
+  },
+  {
+    "name": "Los Angeles",
+    "slug": "los-angeles",
+    "county": "Los Angeles",
+    "lat": 34.0522,
+    "lng": -118.2437,
+    "population": 3898747,
+    "state": "CA"
+  },
+  {
+    "name": "San Francisco",
+    "slug": "san-francisco",
+    "county": "San Francisco",
+    "lat": 37.7749,
+    "lng": -122.4194,
+    "population": 873965,
+    "state": "CA"
+  },
+  {
+    "name": "San Diego",
+    "slug": "san-diego",
+    "county": "San Diego",
+    "lat": 32.7157,
+    "lng": -117.1611,
+    "population": 1386932,
+    "state": "CA"
+  },
+  {
+    "name": "San Jose",
+    "slug": "san-jose",
+    "county": "Santa Clara",
+    "lat": 37.3382,
+    "lng": -121.8863,
+    "population": 1013240,
+    "state": "CA"
+  }
+]
