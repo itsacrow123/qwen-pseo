@@ -1,23 +1,54 @@
+```
+# Build artifacts
+_site/
+dist/
+build/
+
 # Dependencies
 node_modules/
 
-# Environment and secret files
+# Environment
 .env
-.env.*
-!.env.example
+.env.local
+*.env.*
 
-# Build and test output
-dist/
-coverage/
-.cache/
-generated/
+# Editor/IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*.tmp
 
 # Logs
 *.log
-npm-debug.log*
 
-# Editor and operating system files
+# OS
 .DS_Store
 Thumbs.db
-.idea/
-.vscode/
+
+# Coverage
+coverage/
+htmlcov/
+.coverage
+
+# Cache
+__pycache__/
+*.pyc
+*.pyo
+.Python
+*.so
+
+# Testing
+.pytest_cache/
+.mypy_cache/
+
+# Package manager
+package-lock.json
+yarn.lock
+npm-debug.log*
+yarn-error.log*
+
+# Distribution
+*.tar.gz
+*.egg-info/
+```

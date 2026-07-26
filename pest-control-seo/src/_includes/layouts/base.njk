@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  
+  {% block meta %}
+  <title>{{ title if title else site.name }} | {{ site.tagline }}</title>
+  <meta name="description" content="{{ description if description else site.description }}">
+  {% endblock %}
+  
+  <!-- Canonical URL -->
+  <link rel="canonical" href="{{ site.url }}{{ page.url }}">
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="{{ title if title else site.name }}">
+  <meta property="og:description" content="{{ description if description else site.description }}">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="{{ site.url }}{{ page.url }}">
+  <meta property="og:image" content="{{ site.url }}/assets/images/og-default.jpg">
+  <meta property="og:locale" content="en_US">
+  
+  <!-- Twitter Cards -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="{{ title if title else site.name }}">
+  <meta name="twitter:description" content="{{ description if description else site.description }}">
+  <meta name="twitter:image" content="{{ site.url }}/assets/images/og-default.jpg">
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico">
+  <link rel="apple-touch-icon" href="/assets/images/apple-touch-icon.png">
+  
+  <!-- Preconnect -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  
+  <!-- Critical CSS -->
+  <style>
+    :root {
+      --primary: #1a5f3c;
+      --primary-dark: #0f3d26;
+      --secondary: #f97316;
+      --secondary-hover: #ea580c;
+      --text: #1f2937;
+      --text-light: #6b7280;
+      --bg: #ffffff;
+      --bg-light: #f9fafb;
+      --border: #e5e7eb;
+      --success: #10b981;
+      --warning: #f59e0b;
+      --danger: #ef4444;
+      --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+      --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+      --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+      --radius: 0.5rem;
+      --radius-lg: 1rem;
+    }
+    
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif; line-height: 1.6; color: var(--text); background: var(--bg); }
+    img { max-width: 100%; height: auto; display: block; }
+    a { color: var(--primary); text-decoration: none; transition: color 0.2s; }
+    a:hover { color: var(--secondary); }
+    button { cursor: pointer; font-family: inherit; }
+    
+    .container { max-width: 1280px; margin: 0 auto; padding: 0 1.5rem; }
+    .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); border: 0; }
+    
+    /* Skip Link */
+    .skip-link { position: absolute; top: -40px; left: 0; background: var(--primary); color: white; padding: 8px 16px; z-index: 100; transition: top 0.3s; }
+    .skip-link:focus { top: 0; }
+  </style>
+  
+  {% block head %}{% endblock %}
+</head>
+<body>
+  <!-- Skip Link for Accessibility -->
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+  
+  {% include "partials/header.njk" %}
+  
+  <main id="main-content">
+    {% block content %}{% endblock %}
+  </main>
+  
+  {% include "partials/footer.njk" %}
+  
+  <!-- Mobile Sticky Call Button -->
+  {% include "partials/mobile-call-button.njk" %}
+  
+  <!-- Scripts -->
+  <script src="/assets/js/main.js" defer></script>
+  {% block scripts %}{% endblock %}
+  
+  <!-- Structured Data -->
+  {% block schema %}{% endblock %}
+</body>
+</html>
