@@ -18,6 +18,9 @@ describe('Configuration & Schema Validator Tests', () => {
     });
 
     it('should validate current configuration successfully', () => {
+      // Set mock API key for testing to bypass environment validation
+      process.env.GEMINI_API_KEY = 'test-api-key-for-testing';
+      
       const isValid = configManager.validate();
       assert.strictEqual(isValid, true);
     });

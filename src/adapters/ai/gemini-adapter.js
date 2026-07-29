@@ -152,7 +152,7 @@ class GeminiAdapter extends AiProvider {
             answer: `Yes, all treatments we employ in ${cityOnly} follow strict EPA safety rules and utilize organic barriers where applicable.`
           },
           {
-            question: `How fast can Apex respond for a ${cityNameText(serviceName)} emergency?`,
+            question: `How fast can Apex respond for a ${serviceName.toLowerCase()} emergency?`,
             answer: `We provide same-day inspections for urgent situations throughout the county service area.`
           },
           {
@@ -165,11 +165,6 @@ class GeminiAdapter extends AiProvider {
 
     return JSON.stringify(mockPayload);
   }
-}
-
-// Helper to sanitize faq string parsing
-function cityNameText(txt) {
-  return txt.toLowerCase().replace(/&/g, 'and');
 }
 
 export const geminiAdapter = new GeminiAdapter();

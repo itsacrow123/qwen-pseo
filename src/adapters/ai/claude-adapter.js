@@ -1,6 +1,5 @@
 import { AiProvider } from './ai-provider.js';
 import { providerRegistry } from './provider-registry.js';
-import { geminiAdapter } from './gemini-adapter.js';
 import { logger } from '../../core/logger.js';
 import { PseoError, ERROR_CODES } from '../../core/errors.js';
 
@@ -22,7 +21,7 @@ class ClaudeAdapter extends AiProvider {
 
     if (!key) {
       logger.info('claude-adapter', `No API key detected. Using development mock for model "${modelName}".`);
-      const text = geminiAdapter.getMockResponse(userPrompt);
+      const text = this.getMockResponse(userPrompt);
       const durationMs = Date.now() - startTime;
       const inputTokens = Math.ceil((systemPrompt.length + userPrompt.length) / 4);
       const outputTokens = Math.ceil(text.length / 4);

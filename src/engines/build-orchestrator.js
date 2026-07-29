@@ -8,6 +8,7 @@ import { writerEngine } from './writer-engine.js';
 import { reviewerEngine } from './reviewer-engine.js';
 import { seoEngine } from './seo-engine.js';
 import { generatorEngine } from './generator-engine.js';
+import { sitemapEngine } from './sitemap-engine.js';
 import { dashboardEngine } from './dashboard-engine.js';
 import { buildCache } from './build-cache.js';
 import { cloudflareAdapter } from '../adapters/deployment/cloudflare-adapter.js';
@@ -239,6 +240,20 @@ class BuildOrchestrator {
     // 6. Build completion updates
     if (generatedPages.length > 0) {
       await generatorEngine.generateRobots();
+      
+      // Generate sitemap from all successfully generated pages
+      const sitemapPages = targetsDetail
+        .filter(t => t.status === 'PASS')
+        .map(t => ({
+          path: t.outputPath,
+          lastmod: new Date().toISOString(),
+          type: 'location',
+          priority: 0.7,
+          changefreq: 'monthly'
+        }));
+      
+      const sitemapResult = await sitemapEngine.generate(sitemapPages);
+      logger.info('build-orchestrator', `Sitemap generated: ${sitemapResult.urlCount} URLs`);
     }
 
     const summary = {
