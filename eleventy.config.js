@@ -3,6 +3,24 @@ export default function (eleventyConfig) {
   eleventyConfig.addPassthroughCopy('assets');
   eleventyConfig.addWatchTarget('./src/assets');
 
+  // Custom filter to find state by abbreviation
+  eleventyConfig.addNunjucksFilter('findState', (states, stateAbbrev) => {
+    if (!states || !Array.isArray(states)) return null;
+    return states.find(s => s.abbreviation === stateAbbrev);
+  });
+  
+  // Custom filter to find city by name within a state's cities array
+  eleventyConfig.addNunjucksFilter('findCity', (cities, cityName) => {
+    if (!cities || !Array.isArray(cities)) return null;
+    return cities.find(c => c.city === cityName);
+  });
+  
+  // Number formatting filter
+  eleventyConfig.addNunjucksFilter('numberFormat', (num) => {
+    if (typeof num !== 'number') return num;
+    return num.toLocaleString();
+  });
+
   // HTML, Inline CSS and JS Minification Transform
   eleventyConfig.addTransform("htmlMinifier", function (content) {
     if (this.page.outputPath && this.page.outputPath.endsWith(".html")) {

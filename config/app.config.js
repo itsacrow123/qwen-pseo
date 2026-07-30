@@ -29,4 +29,11 @@ export default {
     concurrencyLimit: 10,
     batchSize: 50,
   },
+  
+  // Feature flags
+  features: {
+    richTemplates: false,
+    aiContentGeneration: true,
+    automaticDeployment: false
+  },
 };
