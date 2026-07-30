@@ -110,15 +110,19 @@ schemas: |
 copyrightYear: ${new Date().getFullYear()}
 ---`;
 
-    // Render modular layouts using Nunjucks includes
-    const htmlBody = `
-{% include "hero.njk" %}
-{% include "localIntro.njk" %}
-{% include "serviceDetails.njk" %}
-{% include "nearbyExclusion.njk" %}
-{% include "faqs.njk" %}
-{% include "widgets.njk" %}
-`;
+    // Render modular layouts using Nunjucks includes OR use new unified template
+    // Check if we should use the new rich location template
+    const useRichTemplate = configManager.get('features.richTemplates', false);
+    
+    let htmlBody;
+    
+    if (useRichTemplate) {
+      // Use the new comprehensive location-template.njk directly
+      htmlBody = `\n{% include "location-template.njk" %}\n`;
+    } else {
+      // Legacy modular approach
+      htmlBody = `\n{% include "hero.njk" %}\n{% include "localIntro.njk" %}\n{% include "serviceDetails.njk" %}\n{% include "nearbyExclusion.njk" %}\n{% include "faqs.njk" %}\n{% include "widgets.njk" %}\n`;
+    }
 
     const fullFileContent = `${frontMatter}\n${htmlBody}`;
 

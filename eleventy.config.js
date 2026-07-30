@@ -3,6 +3,24 @@ export default function (eleventyConfig) {
   eleventyConfig.addPassthroughCopy('assets');
   eleventyConfig.addWatchTarget('./src/assets');
 
+  // Custom filter to find state by abbreviation
+  eleventyConfig.addNunjucksFilter('findState', (states, stateAbbrev) => {
+    if (!states || !Array.isArray(states)) return null;
+    return states.find(s => s.abbreviation === stateAbbrev);
+  });
+  
+  // Custom filter to find city by name within a state's cities array
+  eleventyConfig.addNunjucksFilter('findCity', (cities, cityName) => {
+    if (!cities || !Array.isArray(cities)) return null;
+    return cities.find(c => c.city === cityName);
+  });
+  
+  // Number formatting filter
+  eleventyConfig.addNunjucksFilter('numberFormat', (num) => {
+    if (typeof num !== 'number') return num;
+    return num.toLocaleString();
+  });
+
   // HTML, Inline CSS and JS Minification Transform
   eleventyConfig.addTransform("htmlMinifier", function (content) {
     if (this.page.outputPath && this.page.outputPath.endsWith(".html")) {
@@ -26,23 +44,26 @@ export default function (eleventyConfig) {
       const outputDir = path.default.resolve('output');
       const pages = [];
       
-      async function collectPages(dir, baseRelPath = '') {
+      async function collectPages(dir, relPathFromOutput = '') {
         const entries = await fs.default.readdir(dir, { withFileTypes: true });
         for (const entry of entries) {
           const fullPath = path.default.join(dir, entry.name);
-          const relPath = path.default.join(baseRelPath, entry.name);
           
           if (entry.isDirectory()) {
-            await collectPages(fullPath, relPath);
+            // Build relative path: skip 'pages' prefix for location pages
+            const newRelPath = relPathFromOutput 
+              ? path.default.join(relPathFromOutput, entry.name)
+              : entry.name;
+            await collectPages(fullPath, newRelPath);
           } else if (entry.isFile() && entry.name.endsWith('.html')) {
             // Skip admin/dashboard pages from sitemap
-            if (!relPath.includes('generated/') && !relPath.startsWith('_')) {
+            if (!relPathFromOutput.includes('generated/') && !entry.name.startsWith('_')) {
               pages.push({
-                path: relPath,
+                path: relPathFromOutput,
                 lastmod: new Date().toISOString(),
-                type: relPath === 'index.html' ? 'home' : 'location',
-                priority: relPath === 'index.html' ? 1.0 : 0.7,
-                changefreq: relPath === 'index.html' ? 'daily' : 'monthly'
+                type: relPathFromOutput === 'index.html' ? 'home' : 'location',
+                priority: relPathFromOutput === 'index.html' ? 1.0 : 0.7,
+                changefreq: relPathFromOutput === 'index.html' ? 'daily' : 'monthly'
               });
             }
           }
