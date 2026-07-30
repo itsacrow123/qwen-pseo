@@ -1,54 +1,22 @@
 ```
-# Build artifacts
-_site/
+# Build outputs
+generated/
+output/
 dist/
 build/
 
 # Dependencies
 node_modules/
 
-# Environment
-.env
+# Environment files
 .env.local
-*.env.*
+.env
 
-# Editor/IDE
-.vscode/
-.idea/
-*.swp
-*.swo
-*.tmp
-
-# Logs
-*.log
-
-# OS
-.DS_Store
-Thumbs.db
-
-# Coverage
-coverage/
-htmlcov/
-.coverage
-
-# Cache
-__pycache__/
-*.pyc
-*.pyo
-.Python
-*.so
-
-# Testing
-.pytest_cache/
-.mypy_cache/
-
-# Package manager
-package-lock.json
-yarn.lock
-npm-debug.log*
-yarn-error.log*
-
-# Distribution
-*.tar.gz
-*.egg-info/
+# Cache and temporary data
+data/derived/failed-jobs.json
+data/derived/build-cache.json
+reports/validation-report.json
+reports/validation-report.md
+generated/reports/build-report.json
+generated/reports/dashboard.html
 ```

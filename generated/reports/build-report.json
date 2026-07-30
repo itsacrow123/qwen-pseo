@@ -1,0 +1,32 @@
+{
+  "projectId": "enterprise-pseo",
+  "timestamp": "2026-07-29T17:33:22.627Z",
+  "summary": {
+    "mode": "preview",
+    "totalTargets": 1,
+    "successCount": 0,
+    "failedCount": 1,
+    "failedPages": [
+      {
+        "target": {
+          "state": "TX",
+          "city": "austin",
+          "service": "termite-control"
+        },
+        "reason": "Gemini API returned error status 400"
+      }
+    ]
+  },
+  "targets": [
+    {
+      "state": "TX",
+      "city": "austin",
+      "service": "termite-control",
+      "status": "FAIL",
+      "score": 0,
+      "reason": "Gemini API returned error status 400",
+      "outputPath": null,
+      "cached": false
+    }
+  ]
+}
