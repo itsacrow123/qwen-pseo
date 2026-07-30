@@ -2,21 +2,24 @@
 # Build outputs
 generated/
 output/
-dist/
-build/
 
 # Dependencies
 node_modules/
 
-# Environment files
-.env.local
-.env
+# Logs and temp files
+*.log
+*.tmp
 
-# Cache and temporary data
-data/derived/failed-jobs.json
-data/derived/build-cache.json
-reports/validation-report.json
-reports/validation-report.md
-generated/reports/build-report.json
-generated/reports/dashboard.html
+# Environment
+.env
+.env.local
+*.env.*
+
+# Editors
+.vscode/
+.idea/
+
+# OS generated files
+.DS_Store
+Thumbs.db
 ```
