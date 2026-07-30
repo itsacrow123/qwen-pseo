@@ -59,9 +59,9 @@ describe('Enterprise Template Engine Tests', () => {
     assert.ok(content.includes('layout: main.njk'));
     assert.ok(content.includes('Dallas'));
 
-    // Validate Nunjucks component tags
-    assert.ok(content.includes('{% include "hero.njk" %}'));
-    assert.ok(content.includes('{% include "widgets.njk" %}'));
+    // Validate Nunjucks component tags (now using comprehensive location-template.njk)
+    assert.ok(content.includes('{% include "location-template.njk" %}'));
+    assert.ok(content.includes('climate_zone') || content.includes('Common Pests'));
 
     // Clean up
     await fs.rm(filePath, { force: true });

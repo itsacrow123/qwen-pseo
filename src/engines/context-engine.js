@@ -91,7 +91,7 @@ class ContextEngine {
     const weatherWidget = await weatherAdapter.getWeatherData(cityNode);
     const mapsWidget = await mapsAdapter.getMapsData(cityNode, businessContext.coordinates);
 
-    // Construct Context Packet
+    // Construct Context Packet with ALL location data for comprehensive templates
     const packet = {
       projectId: configManager.get('projectId', 'enterprise-pseo'),
       timestamp: new Date().toISOString(),
@@ -101,8 +101,18 @@ class ContextEngine {
         state: stateAbbrev,
         county: cityNode.county,
         population: cityNode.population,
-        zipCodes: cityNode.zip_codes,
+        zipCodes: cityNode.zip_codes || [],
         landmarks: cityNode.landmarks || [],
+        nearbyCities: nearbyCities,
+        climateZone: cityNode.climate_zone || 'humid-subtropical',
+        terrain: cityNode.terrain || 'urban',
+        economyType: cityNode.economy_type || 'diversified',
+        housingProfile: cityNode.housing_profile || 'mixed',
+        growthPattern: cityNode.growth_pattern || 'steady',
+        serviceEnvironment: cityNode.service_environment || 'metro',
+        propertyMix: cityNode.property_mix || 'residential-commercial',
+        lat: cityNode.lat || cityNode.coordinates?.lat || 0,
+        lng: cityNode.lng || cityNode.coordinates?.lng || 0,
       },
       service: serviceData,
       nearby: nearbyCities,

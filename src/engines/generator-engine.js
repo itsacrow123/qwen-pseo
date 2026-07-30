@@ -43,6 +43,7 @@ class GeneratorEngine {
     };
 
     // Construct Front Matter using Block Literals (|) to ensure parsing safety
+    // Pass ALL location data for comprehensive template rendering
     const frontMatter = `---
 layout: main.njk
 title: |
@@ -79,6 +80,28 @@ location:
     ${context.location.city}
   state: |
     ${context.location.state}
+  county: |
+    ${context.location.county}
+  population: ${context.location.population}
+  zip_codes: ${JSON.stringify(context.location.zipCodes || [])}
+  landmarks: ${JSON.stringify(context.location.landmarks || [])}
+  nearby_cities: ${JSON.stringify(context.location.nearbyCities || [])}
+  climate_zone: |
+    ${context.location.climateZone || 'humid-subtropical'}
+  terrain: |
+    ${context.location.terrain || 'urban'}
+  economy_type: |
+    ${context.location.economyType || 'diversified'}
+  housing_profile: |
+    ${context.location.housingProfile || 'mixed'}
+  growth_pattern: |
+    ${context.location.growthPattern || 'steady'}
+  service_environment: |
+    ${context.location.serviceEnvironment || 'metro'}
+  property_mix: |
+    ${context.location.propertyMix || 'residential-commercial'}
+  lat: ${context.location.lat || 0}
+  lng: ${context.location.lng || 0}
 hero:
   title: |
     ${contentModel.content.hero.title.trim()}
@@ -102,27 +125,24 @@ widgets:
           ${tempWeather.data.climate.temp}
         pestRisk: |
           ${tempWeather.data.climate.pestRisk}
+      seasonalNotes: |
+        ${context.widgets?.weather?.data?.seasonalNotes || 'Varies by season'}
   maps:
     iframeHtml: |
       ${tempMaps.iframeHtml}
 schemas: |
   ${JSON.stringify(seoModel.schemas, null, 2).replace(/\n/g, '\n  ')}
+state: ${context.location.state}
+service:
+  name: |
+    ${context.service.name}
+  slug: |
+    ${serviceSlug}
 copyrightYear: ${new Date().getFullYear()}
 ---`;
 
-    // Render modular layouts using Nunjucks includes OR use new unified template
-    // Check if we should use the new rich location template
-    const useRichTemplate = configManager.get('features.richTemplates', false);
-    
-    let htmlBody;
-    
-    if (useRichTemplate) {
-      // Use the new comprehensive location-template.njk directly
-      htmlBody = `\n{% include "location-template.njk" %}\n`;
-    } else {
-      // Legacy modular approach
-      htmlBody = `\n{% include "hero.njk" %}\n{% include "localIntro.njk" %}\n{% include "serviceDetails.njk" %}\n{% include "nearbyExclusion.njk" %}\n{% include "faqs.njk" %}\n{% include "widgets.njk" %}\n`;
-    }
+    // Render using the new comprehensive location template
+    const htmlBody = `\n{% include "location-template.njk" %}\n`;
 
     const fullFileContent = `${frontMatter}\n${htmlBody}`;
 

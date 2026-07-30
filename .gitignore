@@ -2,59 +2,41 @@
 # Dependencies
 node_modules/
 
-# Build artifacts
-dist/
-build/
-*.min.js
-*.bundle.js
-
-# Environment
+# Environment variables
 .env
-.env.local
-*.env.*
 
-# Editors
-.vscode/
-.idea/
-
-# Logs
-*.log
-
-# Python (if applicable)
-__pycache__/
-*.pyc
-*.pyo
-*.pyd
-
-# Temp files
+# Build artifacts and temporary files
 *.tmp
-*.temp
+*.log
 *.swp
-
-# OS
 .DS_Store
 Thumbs.db
 
-# Coverage
+# Coverage reports
 coverage/
 htmlcov/
-.coverage
 
-# Testing
-*.pytest_cache/
-.mypy_cache/
-
-# Compiled
-*.class
+# Compiled files
+*.pyc
+__pycache__/
 *.o
 *.obj
+*.out
 *.exe
 *.dll
 *.so
 *.a
-*.out
 
-# Compressed
+# Virtual environments
+venv/
+.venv/
+.env/
+
+# System files
+*.tmp
+*.log
+
+# Compressed files
 *.zip
 *.gz
 *.tar
@@ -73,4 +55,40 @@ htmlcov/
 *.Z
 *.lz
 *.lzo
+*.tar.gz
+*.tar.bz2
+*.tar.xz
+*.tar.zst
+
+# IDE specific
+.vscode/
+.idea/
+
+# Package manager specific
+package-lock.json
+.yarn/
+node_modules/
+
+# Build system specific
+dist/
+build/
+target/
+.gradle/
+
+# Python specific
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+env/
+.venv/
+
+# Node.js specific
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
 ```

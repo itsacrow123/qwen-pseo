@@ -1,0 +1,243 @@
+{# Comprehensive Location Template for Programmatic SEO Pages #}
+{# Displays all location-specific data: pests, climate, weather, history, landmarks, traffic, nearby cities #}
+
+<section class="hero-section">
+  <h1>{{ hero.title }}</h1>
+  <p>{{ hero.subtitle }}</p>
+  <a href="tel:{{ business.phone }}" class="cta-button">{{ hero.ctaText }}</a>
+</section>
+
+{# Local Introduction #}
+<section class="local-intro-section">
+  <h2>{{ location.city }} Pest Control Experts</h2>
+  <p>{{ localIntro }}</p>
+  
+  {# City Stats Grid #}
+  <div class="city-stats-grid">
+    <div class="stat-card">
+      <span class="stat-value">{{ location.population | numberFormat }}</span>
+      <span class="stat-label">Population</span>
+    </div>
+    <div class="stat-card">
+      <span class="stat-value">{{ location.county }}</span>
+      <span class="stat-label">County</span>
+    </div>
+    <div class="stat-card">
+      <span class="stat-value">{{ location.zip_codes | length }}</span>
+      <span class="stat-label">ZIP Codes</span>
+    </div>
+    <div class="stat-card">
+      <span class="stat-value">{{ location.climate_zone | replace('-', ' ') | title }}</span>
+      <span class="stat-label">Climate Zone</span>
+    </div>
+  </div>
+</section>
+
+{# Common Pests Section #}
+<section class="pests-section">
+  <h2>Common Pests in {{ location.city }}</h2>
+  <p>Based on our {{ location.climate_zone | replace('-', ' ') }} climate and {{ location.terrain }} terrain, these are the most prevalent pests affecting homes and businesses in {{ location.city }}:</p>
+  
+  <div class="pest-grid">
+    {% if location.climate_zone == 'humid-subtropical' %}
+    <div class="pest-card">
+      <div class="pest-icon">🐜</div>
+      <h3>Carpenter Ants</h3>
+      <p>Thrive in humid conditions, causing structural damage by tunneling through wood.</p>
+    </div>
+    <div class="pest-card">
+      <div class="pest-icon">🦟</div>
+      <h3>Mosquitoes</h3>
+      <p>Breed in standing water, peak activity during warm, humid months.</p>
+    </div>
+    <div class="pest-card">
+      <div class="pest-icon">🐀</div>
+      <h3>Norway Rats</h3>
+      <p>Seek shelter indoors during temperature fluctuations.</p>
+    </div>
+    <div class="pest-card">
+      <div class="pest-icon">🪳</div>
+      <h3>American Cockroaches</h3>
+      <p>Love warm, moist environments like basements and crawl spaces.</p>
+    </div>
+    {% elif location.climate_zone == 'semiarid' or location.climate_zone == 'hot-desert' %}
+    <div class="pest-card">
+      <div class="pest-icon">🦂</div>
+      <h3>Scorpions</h3>
+      <p>Common in dry climates, seek water sources near homes.</p>
+    </div>
+    <div class="pest-card">
+      <div class="pest-icon">🕷️</div>
+      <h3>Black Widow Spiders</h3>
+      <p>Thrive in arid conditions, often found in garages and sheds.</p>
+    </div>
+    <div class="pest-card">
+      <div class="pest-icon">🐜</div>
+      <h3>Harvester Ants</h3>
+      <p>Create large mounds in dry soil, can damage landscaping.</p>
+    </div>
+    <div class="pest-card">
+      <div class="pest-icon">🦗</div>
+      <h3>Camel Crickets</h3>
+      <p>Seek moisture in basements and crawl spaces during dry periods.</p>
+    </div>
+    {% elif location.climate_zone == 'subarctic' or location.climate_zone == 'humid-continental' %}
+    <div class="pest-card">
+      <div class="pest-icon">🐜</div>
+      <h3>Pavement Ants</h3>
+      <p>Nest under concrete, enter homes seeking food and warmth.</p>
+    </div>
+    <div class="pest-card">
+      <div class="pest-icon">🐀</div>
+      <h3>House Mice</h3>
+      <p>Seek indoor shelter when temperatures drop in fall.</p>
+    </div>
+    <div class="pest-card">
+      <div class="pest-icon">🪲</div>
+      <h3>Boxelder Bugs</h3>
+      <p>Gather on sunny sides of buildings in autumn.</p>
+    </div>
+    <div class="pest-card">
+      <div class="pest-icon">🐝</div>
+      <h3>Baldfaced Hornets</h3>
+      <p>Build aerial nests, active from spring through first frost.</p>
+    </div>
+    {% else %}
+    <div class="pest-card">
+      <div class="pest-icon">🐜</div>
+      <h3>Odorous House Ants</h3>
+      <p>Common across multiple climate zones, emit coconut-like scent.</p>
+    </div>
+    <div class="pest-card">
+      <div class="pest-icon">🐀</div>
+      <h3>Roof Rats</h3>
+      <p>Excellent climbers, nest in attics and upper structures.</p>
+    </div>
+    <div class="pest-card">
+      <div class="pest-icon">🪳</div>
+      <h3>German Cockroaches</h3>
+      <p>Adaptable to various climates, reproduce rapidly indoors.</p>
+    </div>
+    <div class="pest-card">
+      <div class="pest-icon">🕷️</div>
+      <h3>Cellar Spiders</h3>
+      <p>Found in damp areas year-round across most regions.</p>
+    </div>
+    {% endif %}
+  </div>
+</section>
+
+{# Service Details #}
+<section class="service-details-section">
+  <h2>Our {{ location.city }} {{ service.name }} Services</h2>
+  <ul class="highlights-list">
+    {% for detail in serviceDetails %}
+    <li>{{ detail }}</li>
+    {% endfor %}
+  </ul>
+</section>
+
+{# Weather & Climate Widget #}
+<section class="weather-section">
+  <h2>Local Climate & Pest Activity</h2>
+  <div class="weather-widget">
+    {% if widgets.weather and widgets.weather.data %}
+    <div class="weather-main">
+      <div class="weather-temp">
+        <span class="temp-value">{{ widgets.weather.data.climate.temp }}</span>
+        <span class="temp-label">Average Annual Temperature</span>
+      </div>
+      <div class="weather-risk">
+        <span class="risk-level {{ widgets.weather.data.climate.pestRisk | lower | replace(' ', '-') }}">
+          {{ widgets.weather.data.climate.pestRisk }}
+        </span>
+        <span class="risk-label">Current Pest Activity Level</span>
+      </div>
+    </div>
+    <div class="weather-details">
+      <p><strong>Climate Zone:</strong> {{ location.climate_zone | replace('-', ' ') | title }}</p>
+      <p><strong>Terrain:</strong> {{ location.terrain | replace('-', ' ') | title }}</p>
+      <p><strong>Seasonal Notes:</strong> {{ widgets.weather.data.seasonalNotes }}</p>
+    </div>
+    {% else %}
+    <p>Climate data available for {{ location.city }} - {{ location.climate_zone | replace('-', ' ') }} zone.</p>
+    {% endif %}
+  </div>
+</section>
+
+{# Landmarks Section #}
+{% if location.landmarks and location.landmarks.length > 0 %}
+<section class="landmarks-section">
+  <h2>Serving Landmarks & Neighborhoods in {{ location.city }}</h2>
+  <p>We provide pest control services to all major landmarks and neighborhoods throughout {{ location.city }}:</p>
+  <ul class="landmarks-list">
+    {% for landmark in location.landmarks %}
+    <li>{{ landmark }}</li>
+    {% endfor %}
+  </ul>
+</section>
+{% endif %}
+
+{# City History Section #}
+<section class="history-section">
+  <h2>About {{ location.city }}, {{ location.state }}</h2>
+  <div class="history-content">
+    <p>{{ location.city }} is located in {{ location.county }}, {{ location.state }}. With a population of {{ location.population | numberFormat }}, our community features a diverse {{ location.property_mix }} landscape and a {{ location.economy_type }} economy.</p>
+    <p>Our pest control technicians understand the unique challenges posed by the local {{ location.terrain }} terrain and {{ location.growth_pattern }}, providing targeted solutions that protect homes and businesses throughout the area.</p>
+  </div>
+</section>
+
+{# Nearby Cities with Interactive Map Links #}
+<section class="nearby-section">
+  <h2>Service Areas Near {{ location.city }}</h2>
+  <p>We proudly serve {{ location.city }} and surrounding communities. Click on any nearby city to learn about our localized pest control services:</p>
+  
+  <div class="nearby-cities-grid">
+    {% if location.nearby_cities and location.nearby_cities.length > 0 %}
+    {% for nearby in location.nearby_cities %}
+    <a href="/pages/{{ state | lower }}/{{ nearby.slug }}-{{ service.slug }}/" class="nearby-city-card">
+      <span class="city-name">{{ nearby.name }}</span>
+      <span class="city-distance">{{ service.name }}</span>
+    </a>
+    {% endfor %}
+    {% else %}
+    <p>Serving all neighborhoods in {{ location.city }} and the greater {{ location.county }} area.</p>
+    {% endif %}
+  </div>
+</section>
+
+{# Interactive Map Widget #}
+<section class="map-section">
+  <h2>Our {{ location.city }} Service Area</h2>
+  <div class="map-widget">
+    {% if widgets.maps and widgets.maps.iframeHtml %}
+    {{ widgets.maps.iframeHtml | safe }}
+    {% else %}
+    <div class="map-placeholder">
+      <p>Interactive map showing our service coverage in {{ location.city }}, {{ location.state }}</p>
+      <p>Coordinates: {{ location.lat }}, {{ location.lng }}</p>
+    </div>
+    {% endif %}
+  </div>
+</section>
+
+{# FAQs Section #}
+<section class="faqs-section">
+  <h2>Frequently Asked Questions About Pest Control in {{ location.city }}</h2>
+  <div class="faqs-accordion">
+    {% for faq in faqs %}
+    <div class="faq-item">
+      <h3 class="faq-question">{{ faq.question }}</h3>
+      <p class="faq-answer">{{ faq.answer }}</p>
+    </div>
+    {% endfor %}
+  </div>
+</section>
+
+{# Call to Action Section #}
+<section class="cta-section">
+  <h2>Ready to Protect Your {{ location.city }} Property?</h2>
+  <p>Don't let pests take over your home or business. Our local experts are ready to help.</p>
+  <a href="tel:{{ business.phone }}" class="cta-button-large">Call {{ business.phone }} Now</a>
+  <p class="cta-subtext">Licensed & Insured • Same-Day Service Available • Free Estimates</p>
+</section>
