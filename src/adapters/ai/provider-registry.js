@@ -4,6 +4,15 @@ import { logger } from '../../core/logger.js';
 import { PseoError, ERROR_CODES } from '../../core/errors.js';
 
 /**
+ * Default models for each provider (used when no explicit model is configured).
+ */
+const DEFAULT_MODELS = {
+  openai: 'gpt-4o-mini',
+  claude: 'claude-3-5-sonnet-20240620',
+  gemini: 'gemini-2.5-flash',
+};
+
+/**
  * Provider Registry for managing registered AI adapter classes.
  */
 class ProviderRegistry {
@@ -55,7 +64,7 @@ class ProviderRegistry {
    * Retrieves the next available provider in priority order.
    * Automatically skips providers that have been marked as unavailable.
    * @param {string[]} [preferredOrder] - Optional custom provider order.
-   * @returns {{ provider: Record<string, any>, name: string }} Provider instance and name.
+   * @returns {{ provider: Record<string, any>, name: string, modelName: string }} Provider instance, name, and default model.
    */
   getNextAvailableProvider(preferredOrder = null) {
     const order = preferredOrder || this.providerOrder;
@@ -64,7 +73,11 @@ class ProviderRegistry {
     for (const providerName of order) {
       const provider = this.providers.get(providerName);
       if (provider) {
-        return { provider, name: providerName };
+        return { 
+          provider, 
+          name: providerName,
+          modelName: DEFAULT_MODELS[providerName]
+        };
       }
     }
     
@@ -80,7 +93,7 @@ class ProviderRegistry {
   /**
    * Gets the provider at a specific index in the priority order.
    * @param {number} index - Index in provider order.
-   * @returns {{ provider: Record<string, any>, name: string } | null} Provider instance and name, or null if out of bounds.
+   * @returns {{ provider: Record<string, any>, name: string, modelName: string } | null} Provider instance, name, and default model, or null if out of bounds.
    */
   getProviderByIndex(index) {
     if (index < 0 || index >= this.providerOrder.length) {
@@ -94,7 +107,11 @@ class ProviderRegistry {
       return null;
     }
     
-    return { provider, name: providerName };
+    return { 
+      provider, 
+      name: providerName,
+      modelName: DEFAULT_MODELS[providerName]
+    };
   }
 
   /**
