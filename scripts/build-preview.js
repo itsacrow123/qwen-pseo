@@ -2,7 +2,7 @@ import { buildOrchestrator } from '../src/engines/build-orchestrator.js';
 
 async function main() {
   console.log('Running real preview build pipeline...');
-  const summary = await buildOrchestrator.run('preview');
+  const summary = await buildOrchestrator.run('full');
   console.log('Build completed successfully:', summary);
 }
 
