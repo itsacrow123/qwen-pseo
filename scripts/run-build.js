@@ -1,14 +1,13 @@
 import { execSync } from 'node:child_process';
 import { configManager } from '../src/core/config-manager.js';
 import { buildOrchestrator } from '../src/engines/build-orchestrator.js';
-import dotenv from 'dotenv';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 // Load .env from project root
-dotenv.config({ path: path.resolve(__dirname, '..', '.env') });
+// dotenv.config({ path: path.resolve(__dirname, '..', '.env') });
 
 async function main() {
   console.log('=== Starting PSEO Build Pipeline ===');
