@@ -9,7 +9,8 @@
   },
   "scripts": {
     "dev": "eleventy --serve",
-    "build": "eleventy",
+    "build": "node scripts/run-build.js",
+    "preview": "node scripts/build-preview.js",
     "test": "node --test tests/unit/*.test.js",
     "clean": "node --input-type=module -e \"import { rmSync } from 'node:fs'; rmSync('output', { recursive: true, force: true });\"",
     "format": "prettier --write .",

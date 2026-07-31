@@ -1,50 +1,64 @@
-```markdown
-# Compiled and build artifacts
-*.pyc
-__pycache__/
-*.o
-*.obj
+```
+# Dependencies
+node_modules/
+
+# Build artifacts
 dist/
 build/
-*.class
-*.exe
-*.dll
-*.so
-*.a
-*.out
-
-# Dependencies
-.venv/
-venv/
-node_modules/
-.mypy_cache/
-.pytest_cache/
 target/
-.gradle/
 
-# Logs and temp files
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.py.class
+*.py.obj
+
+# Virtual environments
+venv/
+.venv/
+env/
+ENV/
+
+# Logs
 *.log
+
+# Temporary files
 *.tmp
-*.swp
-*.swo
+*.temp
+*.bak
 
-# Environment
-.env
-.env.local
-*.env.*
-
-# Editors
-.vscode/
-.idea/
-
-# System
+# OS generated files
 .DS_Store
 Thumbs.db
 
-# Coverage
+# Environment variables
+.env
+.env.local
+.env.*
+
+# Coverage reports
 coverage/
 htmlcov/
 .coverage
+
+# IDE specific
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Package manager caches
+.npm/
+.yarn/
+.pnpm-store/
+.bazel-cache/
+
+# Python cache
+.mypy_cache/
+.pytest_cache/
+.hypothesis/
 
 # Compressed files
 *.zip
