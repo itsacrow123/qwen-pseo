@@ -21,7 +21,6 @@ class WriterEngine {
    */
   async generatePageContent(context) {
     const { systemPrompt, userPrompt } = promptBuilder.buildWritePrompt(context);
-    const modelName = configManager.get('provider.ai.primaryModel', 'gemini-2.5-pro');
 
     logger.info('writer-engine', `Requesting content generation for target: "${context.seo.primaryKeyword}"...`);
 
@@ -36,9 +35,9 @@ class WriterEngine {
         continue; // Skip unavailable providers
       }
 
-      const { provider, name: providerName } = providerInfo;
+      const { provider, name: providerName, modelName } = providerInfo;
       
-      logger.info('writer-engine', `Provider = ${providerName}`);
+      logger.info('writer-engine', `Provider = ${providerName}, Model = ${modelName}`);
 
       try {
         // Dispatch request through concurrency and rate limiting queue
