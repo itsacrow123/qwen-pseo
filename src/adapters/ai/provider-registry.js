@@ -9,7 +9,9 @@ import { PseoError, ERROR_CODES } from '../../core/errors.js';
 class ProviderRegistry {
   constructor() {
     this.providers = new Map();
-    this.defaultName = 'gemini';
+    // Provider priority order: OpenAI → Claude → Gemini
+    this.providerOrder = ['openai', 'claude', 'gemini'];
+    this.currentIndex = 0;
   }
 
   /**
@@ -23,24 +25,84 @@ class ProviderRegistry {
   }
 
   /**
-   * Retrieves the active AI provider configured in site configurations.
-   * @returns {Record<string, any>} Active provider instance.
+   * Checks if an error indicates rate limiting or quota exhaustion.
+   * @param {Error} error - The error to check.
+   * @returns {boolean} True if error indicates rate limit/quota issue.
    */
-  getActiveProvider() {
-    const configName = configManager.get('provider.ai.name', this.defaultName).toLowerCase();
-    const provider = this.providers.get(configName);
-
-    if (!provider) {
-      throw new PseoError(
-        ERROR_CODES.AI_FAIL,
-        `AI Provider "${configName}" is not registered in the system registry.`,
-        'provider-registry',
-        'FATAL',
-        `Register provider or check spelling in provider.config.js (Active options: ${Array.from(this.providers.keys()).join(', ')}).`
-      );
+  isRateLimitError(error) {
+    const message = (error.message || '').toUpperCase();
+    const statusCode = error.details?.status;
+    
+    // Check for HTTP 429 status code
+    if (statusCode === 429) {
+      return true;
     }
+    
+    // Check for rate limit keywords in error message
+    const rateLimitKeywords = [
+      '429',
+      'RESOURCE_EXHAUSTED',
+      'RATE_LIMIT',
+      'QUOTA_EXCEEDED',
+      'RATELIMIT',
+      'RATE LIMITED'
+    ];
+    
+    return rateLimitKeywords.some(keyword => message.includes(keyword));
+  }
 
-    return provider;
+  /**
+   * Retrieves the next available provider in priority order.
+   * Automatically skips providers that have been marked as unavailable.
+   * @param {string[]} [preferredOrder] - Optional custom provider order.
+   * @returns {{ provider: Record<string, any>, name: string }} Provider instance and name.
+   */
+  getNextAvailableProvider(preferredOrder = null) {
+    const order = preferredOrder || this.providerOrder;
+    
+    // Find the first available provider in order
+    for (const providerName of order) {
+      const provider = this.providers.get(providerName);
+      if (provider) {
+        return { provider, name: providerName };
+      }
+    }
+    
+    throw new PseoError(
+      ERROR_CODES.AI_FAIL,
+      'No AI providers are registered and available.',
+      'provider-registry',
+      'FATAL',
+      `Register at least one provider. Available: ${Array.from(this.providers.keys()).join(', ')}.`
+    );
+  }
+
+  /**
+   * Gets the provider at a specific index in the priority order.
+   * @param {number} index - Index in provider order.
+   * @returns {{ provider: Record<string, any>, name: string } | null} Provider instance and name, or null if out of bounds.
+   */
+  getProviderByIndex(index) {
+    if (index < 0 || index >= this.providerOrder.length) {
+      return null;
+    }
+    
+    const providerName = this.providerOrder[index];
+    const provider = this.providers.get(providerName);
+    
+    if (!provider) {
+      return null;
+    }
+    
+    return { provider, name: providerName };
+  }
+
+  /**
+   * Returns the ordered list of provider names.
+   * @returns {string[]} Array of provider names in priority order.
+   */
+  getProviderOrder() {
+    return [...this.providerOrder];
   }
 }
 

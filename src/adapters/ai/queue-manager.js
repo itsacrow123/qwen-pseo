@@ -15,7 +15,7 @@ class QueueManager {
    * @returns {Promise<any>}
    */
   async enqueue(taskFn) {
-    const maxConcurrency = configManager.get('provider.ai.maxConcurrency', 5);
+    const maxConcurrency = configManager.get('provider.ai.maxConcurrency', 1);
     const delayBetweenCalls = configManager.get('provider.ai.delayMs', 100);
 
     if (this.activeCalls >= maxConcurrency) {

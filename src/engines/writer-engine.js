@@ -25,47 +25,91 @@ class WriterEngine {
 
     logger.info('writer-engine', `Requesting content generation for target: "${context.seo.primaryKeyword}"...`);
 
-    // Fetch active provider from the registry
-    const provider = providerRegistry.getActiveProvider();
+    // Get provider order and try each provider in sequence
+    const providerOrder = providerRegistry.getProviderOrder();
+    let lastError = null;
 
-    // Dispatch request through concurrency and rate limiting queue
-    const responsePayload = await queueManager.enqueue(() =>
-      provider.generate(systemPrompt, userPrompt, modelName)
-    );
-
-    const rawText = responsePayload.text;
-
-    try {
-      const parsedContent = JSON.parse(rawText);
-
-      // Essential structural validations
-      if (!parsedContent.title || !parsedContent.content || !parsedContent.content.hero) {
-        throw new Error('Missing essential page structure (title, content, or hero).');
+    for (let i = 0; i < providerOrder.length; i++) {
+      const providerInfo = providerRegistry.getProviderByIndex(i);
+      
+      if (!providerInfo) {
+        continue; // Skip unavailable providers
       }
 
-      logger.info('writer-engine', `Successfully generated content model for: "${context.location.city}".`, {
-        tokens: responsePayload.usage,
-        durationMs: responsePayload.durationMs,
-      });
+      const { provider, name: providerName } = providerInfo;
+      
+      logger.info('writer-engine', `Provider = ${providerName}`);
 
-      // Attach token usage and cost for dashboard reporting layers
-      parsedContent._metrics = {
-        usage: responsePayload.usage,
-        durationMs: responsePayload.durationMs,
-      };
+      try {
+        // Dispatch request through concurrency and rate limiting queue
+        const responsePayload = await queueManager.enqueue(() =>
+          provider.generate(systemPrompt, userPrompt, modelName)
+        );
 
-      return parsedContent;
-    } catch (err) {
-      logger.error('writer-engine', 'Failed to parse AI output into valid content JSON structure.', { rawText, error: err });
-      throw new PseoError(
-        ERROR_CODES.AI_FAIL,
-        `AI generated output failed JSON parsing: ${err.message}`,
-        'writer-engine',
-        'ERROR',
-        'Check prompt template syntax or verify model parameters.',
-        { rawText, parseError: err }
-      );
+        const rawText = responsePayload.text;
+
+        try {
+          const parsedContent = JSON.parse(rawText);
+
+          // Essential structural validations
+          if (!parsedContent.title || !parsedContent.content || !parsedContent.content.hero) {
+            throw new Error('Missing essential page structure (title, content, or hero).');
+          }
+
+          logger.info('writer-engine', `Successfully generated content model for: "${context.location.city}".`, {
+            tokens: responsePayload.usage,
+            durationMs: responsePayload.durationMs,
+          });
+
+          // Attach token usage and cost for dashboard reporting layers
+          parsedContent._metrics = {
+            usage: responsePayload.usage,
+            durationMs: responsePayload.durationMs,
+          };
+
+          return parsedContent;
+        } catch (err) {
+          logger.error('writer-engine', 'Failed to parse AI output into valid content JSON structure.', { rawText, error: err });
+          throw new PseoError(
+            ERROR_CODES.AI_FAIL,
+            `AI generated output failed JSON parsing: ${err.message}`,
+            'writer-engine',
+            'ERROR',
+            'Check prompt template syntax or verify model parameters.',
+            { rawText, parseError: err }
+          );
+        }
+      } catch (err) {
+        lastError = err;
+        
+        // Check if this is a rate limit / quota error that should trigger failover
+        if (providerRegistry.isRateLimitError(err)) {
+          logger.warn('writer-engine', `${providerName} quota exceeded (HTTP ${err.details?.status || 'N/A'})`);
+          
+          // If there's another provider available, log the switch
+          const nextProvider = providerRegistry.getProviderByIndex(i + 1);
+          if (nextProvider) {
+            logger.warn('writer-engine', `Switching to ${nextProvider.name}`);
+          }
+          
+          // Continue to next provider
+          continue;
+        }
+        
+        // For non-rate-limit errors, throw immediately
+        throw err;
+      }
     }
+
+    // All providers exhausted
+    throw new PseoError(
+      ERROR_CODES.AI_FAIL,
+      `All AI providers failed. Last error: ${lastError?.message || 'Unknown error'}`,
+      'writer-engine',
+      'ERROR',
+      'Check API key validity and service status for all configured providers.',
+      { lastError }
+    );
   }
 }
 
