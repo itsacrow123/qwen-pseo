@@ -12,20 +12,20 @@ import '../adapters/ai/claude-adapter.js';
 
 /**
  * Writer Engine managing content generation orchestration.
- * Implements automatic provider fallback and exponential backoff.
+ * Implements automatic provider fallback: OpenAI → Claude → Gemini
  */
 class WriterEngine {
   /**
    * Generates localized content models for a page.
-   * Uses fallback chain: OpenAI → Anthropic → Gemini
+   * Uses fallback chain: OpenAI → Claude → Gemini
    * @param {Record<string, any>} context - Validated Context Packet.
    * @returns {Promise<Record<string, any>>} Page content model.
    */
   async generatePageContent(context) {
     const { systemPrompt, userPrompt } = promptBuilder.buildWritePrompt(context);
-    const modelName = configManager.get('provider.ai.primaryModel', 'gemini-2.5-pro');
+    const modelName = configManager.get('provider.ai.primaryModel', 'gpt-4o');
     
-    // Get the fallback chain of providers
+    // Get the fallback chain of providers (OpenAI → Claude → Gemini)
     const providerChain = providerRegistry.getFallbackChain();
     
     logger.info('writer-engine', `Requesting content generation for target: "${context.seo.primaryKeyword}"...`);
@@ -86,7 +86,7 @@ class WriterEngine {
         
         // Check if this is a rate limit error that should trigger fallback
         if (providerRegistry.isRateLimitError(err)) {
-          logger.warn('writer-engine', `Provider "${providerName}" returned rate limit/quota error. Switching to next provider in chain.`);
+          logger.warn('writer-engine', `Provider "${providerName}" returned rate limit/quota error (429/RESOURCE_EXHAUSTED). Switching to next provider in chain.`);
           continue; // Try next provider
         }
         
