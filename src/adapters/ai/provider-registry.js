@@ -5,13 +5,14 @@ import { PseoError, ERROR_CODES } from '../../core/errors.js';
 
 /**
  * Provider Registry for managing registered AI adapter classes.
- * Implements automatic fallback chain: OpenAI → Anthropic → Gemini
+ * Implements automatic fallback chain: OpenAI → Claude → Gemini
  */
 class ProviderRegistry {
   constructor() {
     this.providers = new Map();
-    this.defaultName = 'gemini';
-    // Fallback priority order: OpenAI first, then Anthropic, then Gemini
+    // Default to first available provider in fallback order
+    this.defaultName = 'openai';
+    // Fallback priority order: OpenAI first, then Claude, then Gemini
     this.fallbackOrder = ['openai', 'claude', 'gemini'];
   }
   
