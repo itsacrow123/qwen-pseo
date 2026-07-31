@@ -168,4 +168,7 @@ class GeminiAdapter extends AiProvider {
 }
 
 export const geminiAdapter = new GeminiAdapter();
-providerRegistry.register('gemini', geminiAdapter);
+// Conditional registration based on API key availability
+if (process.env.GEMINI_API_KEY?.trim()) {
+  providerRegistry.register('gemini', geminiAdapter);
+}

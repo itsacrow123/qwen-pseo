@@ -112,4 +112,7 @@ class OpenaiAdapter extends AiProvider {
 }
 
 export const openaiAdapter = new OpenaiAdapter();
-providerRegistry.register('openai', openaiAdapter);
+// Conditional registration based on API key availability
+if (process.env.OPENAI_API_KEY?.trim()) {
+  providerRegistry.register('openai', openaiAdapter);
+}

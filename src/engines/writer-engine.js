@@ -10,6 +10,9 @@ import '../adapters/ai/gemini-adapter.js';
 import '../adapters/ai/openai-adapter.js';
 import '../adapters/ai/claude-adapter.js';
 
+// Initialize provider registry (detects available providers based on API keys)
+providerRegistry.initialize();
+
 /**
  * Writer Engine managing content generation orchestration.
  */

@@ -113,4 +113,7 @@ class ClaudeAdapter extends AiProvider {
 }
 
 export const claudeAdapter = new ClaudeAdapter();
-providerRegistry.register('claude', claudeAdapter);
+// Conditional registration based on API key availability
+if (process.env.ANTHROPIC_API_KEY?.trim()) {
+  providerRegistry.register('claude', claudeAdapter);
+}
