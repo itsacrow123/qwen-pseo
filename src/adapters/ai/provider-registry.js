@@ -13,6 +13,15 @@ const DEFAULT_MODELS = {
 };
 
 /**
+ * Provider configuration with API key environment variable names.
+ */
+const PROVIDER_CONFIG = {
+  openai: { apiKeyEnv: 'OPENAI_API_KEY' },
+  claude: { apiKeyEnv: 'ANTHROPIC_API_KEY' },
+  gemini: { apiKeyEnv: 'GEMINI_API_KEY' },
+};
+
+/**
  * Provider Registry for managing registered AI adapter classes.
  */
 class ProviderRegistry {
@@ -21,6 +30,72 @@ class ProviderRegistry {
     // Provider priority order: OpenAI → Claude → Gemini
     this.providerOrder = ['openai', 'claude', 'gemini'];
     this.currentIndex = 0;
+    this._initialized = false;
+  }
+
+  /**
+   * Initializes the registry by detecting available providers based on API keys.
+   * Must be called before using any providers.
+   */
+  initialize() {
+    if (this._initialized) {
+      return;
+    }
+
+    const availableProviders = [];
+    const skippedProviders = [];
+
+    // Check each provider for API key availability and register if key exists
+    for (const providerName of this.providerOrder) {
+      const envVar = PROVIDER_CONFIG[providerName]?.apiKeyEnv;
+      const hasApiKey = envVar && process.env[envVar]?.trim();
+
+      if (hasApiKey) {
+        const provider = this.providers.get(providerName);
+        if (provider) {
+          availableProviders.push({ name: providerName, modelName: DEFAULT_MODELS[providerName] });
+        } else {
+          logger.warn('provider-registry', `Provider "${providerName}" has API key but is not registered.`);
+        }
+      } else {
+        skippedProviders.push({ name: providerName, reason: `missing ${envVar}` });
+      }
+    }
+
+    // Remove providers without API keys from the registry
+    for (const skipped of skippedProviders) {
+      this.providers.delete(skipped.name);
+    }
+
+    // Update provider order to only include available providers
+    this.providerOrder = availableProviders.map(p => p.name);
+
+    // Log detected providers
+    logger.info('provider-registry', '=========================');
+    logger.info('provider-registry', 'Detected AI Providers');
+    logger.info('provider-registry', '=========================');
+
+    for (const provider of availableProviders) {
+      const displayName = provider.name.charAt(0).toUpperCase() + provider.name.slice(1);
+      logger.info('provider-registry', `✓ ${displayName} (model: ${provider.modelName})`);
+    }
+
+    if (skippedProviders.length > 0) {
+      logger.info('provider-registry', '');
+      logger.info('provider-registry', 'Skipped:');
+      for (const skipped of skippedProviders) {
+        const displayName = skipped.name.charAt(0).toUpperCase() + skipped.name.slice(1);
+        logger.info('provider-registry', `✗ ${displayName} (${skipped.reason})`);
+      }
+    }
+
+    if (availableProviders.length === 0) {
+      logger.warn('provider-registry', 'No AI providers with valid API keys detected.');
+    }
+
+    logger.info('provider-registry', '=========================');
+
+    this._initialized = true;
   }
 
   /**
@@ -67,7 +142,21 @@ class ProviderRegistry {
    * @returns {{ provider: Record<string, any>, name: string, modelName: string }} Provider instance, name, and default model.
    */
   getNextAvailableProvider(preferredOrder = null) {
+    // Ensure initialization has happened
+    this.initialize();
+    
     const order = preferredOrder || this.providerOrder;
+    
+    // Check if no providers are available
+    if (order.length === 0) {
+      throw new PseoError(
+        ERROR_CODES.AI_FAIL,
+        'No valid AI providers configured.',
+        'provider-registry',
+        'FATAL',
+        'Configure at least one API key: OPENAI_API_KEY, ANTHROPIC_API_KEY, or GEMINI_API_KEY.'
+      );
+    }
     
     // Find the first available provider in order
     for (const providerName of order) {
@@ -96,6 +185,9 @@ class ProviderRegistry {
    * @returns {{ provider: Record<string, any>, name: string, modelName: string } | null} Provider instance, name, and default model, or null if out of bounds.
    */
   getProviderByIndex(index) {
+    // Ensure initialization has happened
+    this.initialize();
+    
     if (index < 0 || index >= this.providerOrder.length) {
       return null;
     }
@@ -119,6 +211,8 @@ class ProviderRegistry {
    * @returns {string[]} Array of provider names in priority order.
    */
   getProviderOrder() {
+    // Ensure initialization has happened
+    this.initialize();
     return [...this.providerOrder];
   }
 }
