@@ -3,17 +3,9 @@
  */
 export default {
   // AI Inference & Review configuration
-  // Note: Model selection is now centralized in provider-registry.js
-  // Each provider uses its own default model (gpt-4o-mini for OpenAI, 
-  // claude-3-5-sonnet-20240620 for Claude, gemini-2.5-flash for Gemini)
-  ai: {
-    primaryModel: 'gemini-2.5-flash',  // Default fallback (Gemini provider)
-    secondaryModel: 'gemini-2.5-flash',
-    apiKey: process.env.GEMINI_API_KEY || null,
-    timeoutMs: 15000,
-    maxRetries: 3,
-  },
-
+  // Note: Model selection is handled automatically by siliconflow-client.js
+  // using an internal priority list. DO NOT set SILICONFLOW_MODEL.
+  
   // Third-Party data integration settings
   weather: {
     provider: 'mock', // Options: 'mock', 'open-weather'

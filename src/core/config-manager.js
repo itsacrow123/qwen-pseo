@@ -1,7 +1,6 @@
 import appConfig from '../../config/app.config.js';
 import siteConfig from '../../config/site.config.js';
 import seoConfig from '../../config/seo.config.js';
-import providerConfig from '../../config/provider.config.js';
 import { PseoError, ERROR_CODES } from './errors.js';
 import { logger } from './logger.js';
 
@@ -14,7 +13,6 @@ class ConfigManager {
     this.app = { ...appConfig };
     this.site = { ...siteConfig };
     this.seo = { ...seoConfig };
-    this.provider = { ...providerConfig };
     this._validated = false;
   }
 
@@ -67,18 +65,7 @@ class ConfigManager {
       );
     }
 
-    // Check AI Model
-    if (!this.provider.ai || !this.provider.ai.primaryModel) {
-      throw new PseoError(
-        ERROR_CODES.CONFIG_INVALID,
-        'Primary AI model is not configured in provider.config.js',
-        'config',
-        'FATAL',
-        'Specify a primary model name in config/provider.config.js.'
-      );
-    }
-
-    // Validate environment variables
+    // Validate SiliconFlow environment variables
     this._validateEnvironmentVariables();
 
     this._validated = true;
@@ -95,20 +82,20 @@ class ConfigManager {
     const missingRequired = [];
     const missingOptional = [];
 
-    // Check AI provider keys (at least one required)
-    const aiEnabled = this.get('provider.ai.enabled', true);
-    if (aiEnabled) {
-      const geminiKey = process.env.GEMINI_API_KEY;
-      const openaiKey = process.env.OPENAI_API_KEY;
-      const anthropicKey = process.env.ANTHROPIC_API_KEY;
+    // Check SiliconFlow API key (required)
+    const siliconflowKey = process.env.SILICONFLOW_API_KEY;
+    const siliconflowBaseUrl = process.env.SILICONFLOW_BASE_URL;
 
-      if (!geminiKey && !openaiKey && !anthropicKey) {
-        missingRequired.push('At least one AI API key (GEMINI_API_KEY, OPENAI_API_KEY, or ANTHROPIC_API_KEY)');
-      } else {
-        if (geminiKey) logger.info('config', 'Gemini API key found');
-        if (openaiKey) logger.info('config', 'OpenAI API key found');
-        if (anthropicKey) logger.info('config', 'Anthropic API key found');
-      }
+    if (!siliconflowKey || !siliconflowKey.trim()) {
+      missingRequired.push('SILICONFLOW_API_KEY');
+    } else {
+      logger.info('config', 'SiliconFlow API key found');
+    }
+
+    if (!siliconflowBaseUrl || !siliconflowBaseUrl.trim()) {
+      logger.info('config', 'SiliconFlow base URL not set, using default: https://api.siliconflow.com/v1');
+    } else {
+      logger.info('config', 'SiliconFlow base URL found');
     }
 
     // Check optional service keys
