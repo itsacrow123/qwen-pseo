@@ -10,16 +10,16 @@ describe('Configuration & Schema Validator Tests', () => {
       const bizName = configManager.get('site.business.name');
       assert.strictEqual(bizName, 'Apex Pest Control');
 
-      const primaryModel = configManager.get('provider.ai.primaryModel');
-      assert.strictEqual(primaryModel, 'gemini-2.5-pro');
-
+      // Model selection is handled automatically by model-selector.js
+      // No hardcoded primaryModel value to check
+      
       const invalidVal = configManager.get('some.nonexistent.key', 'default-value');
       assert.strictEqual(invalidVal, 'default-value');
     });
 
     it('should validate current configuration successfully', () => {
       // Set mock API key for testing to bypass environment validation
-      process.env.GEMINI_API_KEY = 'test-api-key-for-testing';
+      process.env.SILICONFLOW_API_KEY = 'test-api-key-for-testing';
       
       const isValid = configManager.validate();
       assert.strictEqual(isValid, true);
