@@ -30,7 +30,7 @@ class BuildOrchestrator {
    * @param {string} mode - 'validation-only' | 'preview' | 'full'
    * @param {string} [sourceLocs] - Custom locations folder.
    * @param {string} [sourceServices] - Custom services folder.
-   * @param {Record<string, any>} [options] - Build configurations.
+   * @param {Record<string, any>} [options] - Build configurations including filters.
    */
   async run(
     mode = 'full', 
@@ -42,8 +42,19 @@ class BuildOrchestrator {
     const maxRetries = options.maxRetries || configManager.get('build.maxRetries', 3);
     const resume = options.resume !== false;
     const onlyFailed = options.onlyFailed === true;
+    const filters = options.filters || {};
 
     logger.info('build-orchestrator', `Starting build: mode="${mode}", concurrency=${concurrency}, maxRetries=${maxRetries}`);
+    
+    if (filters.state) {
+      logger.info('build-orchestrator', `Applying state filter: ${filters.state}`);
+    }
+    if (filters.county) {
+      logger.info('build-orchestrator', `Applying county filter: ${filters.county}`);
+    }
+    if (filters.city) {
+      logger.info('build-orchestrator', `Applying city filter: ${filters.city}`);
+    }
 
     // 1. Validate Config & Ingestion Registry
     configManager.validate();
@@ -84,35 +95,62 @@ class BuildOrchestrator {
     }
 
     if (targets.length === 0) {
-      if (mode === 'preview') {
-        const states = datasetEngine.getAllStates();
-        const services = datasetEngine.getAllServices();
-        const previewState = states[0];
-        const stateNode = await knowledgeEngine.getState(previewState.abbreviation);
-        const stateCities = stateNode ? stateNode.cities : [];
-        if (stateCities.length > 0 && services.length > 0) {
-          targets.push({
-            state: previewState.abbreviation,
-            city: stateCities[0].slug,
-            service: services[0].id,
-          });
+      const states = datasetEngine.getAllStates();
+      const services = datasetEngine.getAllServices();
+      
+      // Apply state filter if provided
+      let statesToProcess = states;
+      if (filters.state) {
+        const filteredState = states.find(s => s.abbreviation.toUpperCase() === filters.state.toUpperCase());
+        if (!filteredState) {
+          throw new PseoError(
+            ERROR_CODES.DATA_INVALID,
+            `State "${filters.state}" not found in dataset.`,
+            'build-orchestrator',
+            'ERROR',
+            'Verify the state abbreviation matches a valid US state.'
+          );
         }
-      } else {
-        const states = datasetEngine.getAllStates();
-        const services = datasetEngine.getAllServices();
-        for (const state of states) {
-          const stateNode = await knowledgeEngine.getState(state.abbreviation);
-          const stateCities = stateNode ? stateNode.cities : [];
-          for (const city of stateCities) {
-            for (const service of services) {
-              targets.push({
-                state: state.abbreviation,
-                city: city.slug,
-                service: service.id,
-              });
+        statesToProcess = [filteredState];
+      }
+      
+      for (const state of statesToProcess) {
+        const stateNode = await knowledgeEngine.getState(state.abbreviation);
+        const stateCities = stateNode ? stateNode.cities : [];
+        
+        for (const city of stateCities) {
+          // Apply county filter if provided
+          if (filters.county) {
+            const cityData = datasetEngine.getCity(city.slug);
+            // Support both "Cook" and "Cook County" formats
+            const countyMatch = filters.county.toLowerCase().includes('county') 
+              ? cityData && cityData.county === filters.county
+              : cityData && cityData.county.toLowerCase().includes(filters.county.toLowerCase());
+            if (!countyMatch) {
+              continue;
             }
           }
+          
+          // Apply city filter if provided
+          if (filters.city) {
+            if (city.slug.toLowerCase() !== filters.city.toLowerCase()) {
+              continue;
+            }
+          }
+          
+          for (const service of services) {
+            targets.push({
+              state: state.abbreviation,
+              city: city.slug,
+              service: service.id,
+            });
+          }
         }
+      }
+      
+      if (mode === 'preview' && targets.length > 0) {
+        // For preview mode, only take the first target
+        targets = [targets[0]];
       }
     }
 
