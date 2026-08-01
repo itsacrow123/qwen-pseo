@@ -27,14 +27,21 @@ const PROVIDER_CONFIG = {
 class ProviderRegistry {
   constructor() {
     this.providers = new Map();
-    // Provider priority order: OpenAI → Claude → Gemini
-    this.providerOrder = ['openai', 'claude', 'gemini'];
     this.currentIndex = 0;
     this._initialized = false;
   }
 
   /**
-   * Initializes the registry by detecting available providers based on API keys.
+   * Gets the provider order dynamically from registered providers.
+   * @returns {string[]} Array of provider names in registration order.
+   */
+  get providerOrder() {
+    return Array.from(this.providers.keys());
+  }
+
+  /**
+   * Initializes the registry by logging detected providers.
+   * Providers self-register on import only if their API key exists.
    * Must be called before using any providers.
    */
   initialize() {
@@ -45,39 +52,29 @@ class ProviderRegistry {
     const availableProviders = [];
     const skippedProviders = [];
 
-    // Check each provider for API key availability and register if key exists
-    for (const providerName of this.providerOrder) {
-      const envVar = PROVIDER_CONFIG[providerName]?.apiKeyEnv;
+    // Check which providers registered themselves and which were skipped
+    for (const [providerName, config] of Object.entries(PROVIDER_CONFIG)) {
+      const envVar = config.apiKeyEnv;
       const hasApiKey = envVar && process.env[envVar]?.trim();
+      const isRegistered = this.providers.has(providerName);
 
-      if (hasApiKey) {
-        const provider = this.providers.get(providerName);
-        if (provider) {
-          availableProviders.push({ name: providerName, modelName: DEFAULT_MODELS[providerName] });
-        } else {
-          logger.warn('provider-registry', `Provider "${providerName}" has API key but is not registered.`);
-        }
+      if (isRegistered) {
+        availableProviders.push({ name: providerName, modelName: DEFAULT_MODELS[providerName] });
+      } else if (hasApiKey) {
+        logger.warn('provider-registry', `Provider "${providerName}" has API key but is not registered.`);
       } else {
         skippedProviders.push({ name: providerName, reason: `missing ${envVar}` });
       }
     }
 
-    // Remove providers without API keys from the registry
-    for (const skipped of skippedProviders) {
-      this.providers.delete(skipped.name);
-    }
-
-    // Update provider order to only include available providers
-    this.providerOrder = availableProviders.map(p => p.name);
-
     // Log detected providers
     logger.info('provider-registry', '=========================');
-    logger.info('provider-registry', 'Detected AI Providers');
+    logger.info('provider-registry', 'Detected Providers');
     logger.info('provider-registry', '=========================');
 
     for (const provider of availableProviders) {
       const displayName = provider.name.charAt(0).toUpperCase() + provider.name.slice(1);
-      logger.info('provider-registry', `✓ ${displayName} (model: ${provider.modelName})`);
+      logger.info('provider-registry', `✓ ${displayName}`);
     }
 
     if (skippedProviders.length > 0) {
@@ -85,12 +82,18 @@ class ProviderRegistry {
       logger.info('provider-registry', 'Skipped:');
       for (const skipped of skippedProviders) {
         const displayName = skipped.name.charAt(0).toUpperCase() + skipped.name.slice(1);
-        logger.info('provider-registry', `✗ ${displayName} (${skipped.reason})`);
+        logger.info('provider-registry', `✗ ${displayName}`);
       }
     }
 
     if (availableProviders.length === 0) {
-      logger.warn('provider-registry', 'No AI providers with valid API keys detected.');
+      throw new PseoError(
+        ERROR_CODES.AI_FAIL,
+        'No valid AI providers configured.',
+        'provider-registry',
+        'FATAL',
+        'Configure at least one API key: OPENAI_API_KEY, ANTHROPIC_API_KEY, or GEMINI_API_KEY.'
+      );
     }
 
     logger.info('provider-registry', '=========================');

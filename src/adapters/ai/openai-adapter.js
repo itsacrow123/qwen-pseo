@@ -115,4 +115,6 @@ export const openaiAdapter = new OpenaiAdapter();
 // Conditional registration based on API key availability
 if (process.env.OPENAI_API_KEY?.trim()) {
   providerRegistry.register('openai', openaiAdapter);
+} else {
+  logger.info('openai-adapter', 'Skipped OpenAI (missing API key)');
 }
