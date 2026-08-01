@@ -62,7 +62,7 @@ describe('Generator & Build Orchestrator Tests', () => {
   describe('BuildOrchestrator', () => {
     it('should run preview build successfully', async () => {
       // Set mock API key for testing to bypass environment validation
-      process.env.GEMINI_API_KEY = 'test-api-key-for-testing';
+      process.env.SILICONFLOW_API_KEY = 'test-api-key-for-testing';
       
       const summary = await buildOrchestrator.run(
         'preview', 
