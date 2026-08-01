@@ -3,7 +3,6 @@ import assert from 'node:assert';
 import { datasetEngine } from '../../src/engines/dataset-engine.js';
 import { knowledgeEngine } from '../../src/engines/knowledge-engine.js';
 import { contextEngine } from '../../src/engines/context-engine.js';
-import { geminiAdapter } from '../../src/adapters/ai/gemini-adapter.js';
 import { writerEngine } from '../../src/engines/writer-engine.js';
 import { reviewerEngine } from '../../src/engines/reviewer-engine.js';
 import { schemaEngine } from '../../src/engines/schema-engine.js';
@@ -23,12 +22,12 @@ describe('AI Writer & SEO Layer Tests', () => {
     contextPacket = await contextEngine.buildContextPacket('TX', 'austin', 'termite-control');
   });
 
-  describe('GeminiAdapter & WriterEngine', () => {
-    it('should return mock content JSON when API key is missing', async () => {
+  describe('SiliconFlowClient & WriterEngine', () => {
+    it('should generate content using SiliconFlow client', async () => {
       const content = await writerEngine.generatePageContent(contextPacket);
       
       assert.ok(content);
-      assert.strictEqual(content.content.hero.title, 'Reliable Termite Control in Austin, TX');
+      assert.ok(content.content.hero.title);
       assert.ok(content.description);
     });
   });
