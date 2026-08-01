@@ -65,7 +65,7 @@ class ConfigManager {
       );
     }
 
-    // Validate SiliconFlow environment variables
+    // Validate Ollama environment variables
     this._validateEnvironmentVariables();
 
     this._validated = true;
@@ -82,20 +82,20 @@ class ConfigManager {
     const missingRequired = [];
     const missingOptional = [];
 
-    // Check SiliconFlow API key (required)
-    const siliconflowKey = process.env.SILICONFLOW_API_KEY;
-    const siliconflowBaseUrl = process.env.SILICONFLOW_BASE_URL;
+    // Check Ollama environment variables (required)
+    const ollamaBaseUrl = process.env.OLLAMA_BASE_URL;
+    const ollamaModel = process.env.OLLAMA_MODEL;
 
-    if (!siliconflowKey || !siliconflowKey.trim()) {
-      missingRequired.push('SILICONFLOW_API_KEY');
+    if (!ollamaBaseUrl || !ollamaBaseUrl.trim()) {
+      missingRequired.push('OLLAMA_BASE_URL');
     } else {
-      logger.info('config', 'SiliconFlow API key found');
+      logger.info('config', 'Ollama base URL found');
     }
 
-    if (!siliconflowBaseUrl || !siliconflowBaseUrl.trim()) {
-      logger.info('config', 'SiliconFlow base URL not set, using default: https://api.siliconflow.com/v1');
+    if (!ollamaModel || !ollamaModel.trim()) {
+      missingRequired.push('OLLAMA_MODEL');
     } else {
-      logger.info('config', 'SiliconFlow base URL found');
+      logger.info('config', 'Ollama model found');
     }
 
     // Check optional service keys

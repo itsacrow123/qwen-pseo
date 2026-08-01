@@ -1,5 +1,5 @@
 import { promptBuilder } from './prompt-builder.js';
-import { siliconFlowClient } from '../adapters/ai/siliconflow-client.js';
+import { ollamaClient } from '../adapters/ai/ollama-client.js';
 import { logger } from '../core/logger.js';
 import { PseoError, ERROR_CODES } from '../core/errors.js';
 
@@ -18,8 +18,8 @@ class WriterEngine {
     logger.info('writer-engine', `Requesting content generation for target: "${context.seo.primaryKeyword}"...`);
 
     try {
-      // Dispatch request through SiliconFlow client with built-in retry and failover
-      const responsePayload = await siliconFlowClient.generate(systemPrompt, userPrompt);
+      // Dispatch request through Ollama client with built-in retry
+      const responsePayload = await ollamaClient.generate(systemPrompt, userPrompt);
 
       const rawText = responsePayload.text;
 
@@ -55,7 +55,7 @@ class WriterEngine {
         );
       }
     } catch (err) {
-      // Re-throw SiliconFlow client errors
+      // Re-throw Ollama client errors
       throw err;
     }
   }
