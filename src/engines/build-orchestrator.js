@@ -133,7 +133,16 @@ class BuildOrchestrator {
           
           // Apply city filter if provided
           if (filters.city) {
-            if (city.slug.toLowerCase() !== filters.city.toLowerCase()) {
+            // Support multiple matching strategies:
+            // 1. Exact slug match (e.g., "chicago-il" matches exactly)
+            // 2. City name match (e.g., "Chicago" matches city.city exactly)
+            const filterLower = filters.city.toLowerCase();
+            const cityNameMatch = city.city.toLowerCase() === filterLower;
+            const slugExactMatch = city.slug.toLowerCase() === filterLower;
+            
+            // Only match if city name matches exactly OR slug matches exactly
+            // This prevents "Chicago" from matching "Chicago Heights"
+            if (!cityNameMatch && !slugExactMatch) {
               continue;
             }
           }

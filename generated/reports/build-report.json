@@ -1,12 +1,68 @@
 {
   "projectId": "enterprise-pseo",
-  "timestamp": "2026-08-01T22:28:24.066Z",
+  "timestamp": "2026-08-01T22:41:46.178Z",
   "summary": {
     "mode": "full",
-    "totalTargets": 0,
+    "totalTargets": 3,
     "successCount": 0,
-    "failedCount": 0,
-    "failedPages": []
+    "failedCount": 3,
+    "failedPages": [
+      {
+        "target": {
+          "state": "IL",
+          "city": "chicago-il",
+          "service": "rodent-control"
+        },
+        "reason": "Ollama generation failed after 3 attempts. Last error: fetch failed"
+      },
+      {
+        "target": {
+          "state": "IL",
+          "city": "chicago-il",
+          "service": "bed-bug-treatment"
+        },
+        "reason": "Ollama generation failed after 3 attempts. Last error: fetch failed"
+      },
+      {
+        "target": {
+          "state": "IL",
+          "city": "chicago-il",
+          "service": "termite-control"
+        },
+        "reason": "Ollama generation failed after 3 attempts. Last error: fetch failed"
+      }
+    ]
   },
-  "targets": []
+  "targets": [
+    {
+      "state": "IL",
+      "city": "chicago-il",
+      "service": "rodent-control",
+      "status": "FAIL",
+      "score": 0,
+      "reason": "Ollama generation failed after 3 attempts. Last error: fetch failed",
+      "outputPath": null,
+      "cached": false
+    },
+    {
+      "state": "IL",
+      "city": "chicago-il",
+      "service": "bed-bug-treatment",
+      "status": "FAIL",
+      "score": 0,
+      "reason": "Ollama generation failed after 3 attempts. Last error: fetch failed",
+      "outputPath": null,
+      "cached": false
+    },
+    {
+      "state": "IL",
+      "city": "chicago-il",
+      "service": "termite-control",
+      "status": "FAIL",
+      "score": 0,
+      "reason": "Ollama generation failed after 3 attempts. Last error: fetch failed",
+      "outputPath": null,
+      "cached": false
+    }
+  ]
 }

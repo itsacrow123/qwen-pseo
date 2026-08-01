@@ -1,0 +1,17 @@
+[
+  {
+    "state": "IL",
+    "city": "chicago-il",
+    "service": "rodent-control"
+  },
+  {
+    "state": "IL",
+    "city": "chicago-il",
+    "service": "bed-bug-treatment"
+  },
+  {
+    "state": "IL",
+    "city": "chicago-il",
+    "service": "termite-control"
+  }
+]

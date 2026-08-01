@@ -1,33 +1,29 @@
 ```
-# Dependencies
-node_modules/
-# Build artifacts
-dist/
-build/
-target/
-# Logs and temp files
-*.log
-*.tmp
-# Environment
-.env
-.env.local
-*.env.*
-# Cache
-.cache/
-.mypy_cache/
-.pytest_cache/
-.nyc_output/
-coverage/
-htmlcov/
-# IDE
-.vscode/
-.idea/
-*.swp
-*.swo
-# OS
-.DS_Store
-Thumbs.db
-# Reports and generated files
+# Build outputs
+output/
 generated/
-data/derived/
+
+# Compressed files
+*.zip
+*.gz
+*.tar
+*.tgz
+*.bz2
+*.xz
+*.7z
+*.rar
+*.zst
+*.lz4
+*.lzh
+*.cab
+*.arj
+*.rpm
+*.deb
+*.Z
+*.lz
+*.lzo
+*.tar.gz
+*.tar.bz2
+*.tar.xz
+*.tar.zst
 ```
