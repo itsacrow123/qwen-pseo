@@ -1,1 +1,33 @@
-Nothing needs to be added to .gitignore since only a JavaScript source file was added without any build artifacts, dependencies, or temporary files.
+```
+# Dependencies
+node_modules/
+# Build artifacts
+dist/
+build/
+target/
+# Logs and temp files
+*.log
+*.tmp
+# Environment
+.env
+.env.local
+*.env.*
+# Cache
+.cache/
+.mypy_cache/
+.pytest_cache/
+.nyc_output/
+coverage/
+htmlcov/
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+# OS
+.DS_Store
+Thumbs.db
+# Reports and generated files
+generated/
+data/derived/
+```
