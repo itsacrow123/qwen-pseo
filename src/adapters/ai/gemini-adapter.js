@@ -171,4 +171,6 @@ export const geminiAdapter = new GeminiAdapter();
 // Conditional registration based on API key availability
 if (process.env.GEMINI_API_KEY?.trim()) {
   providerRegistry.register('gemini', geminiAdapter);
+} else {
+  logger.info('gemini-adapter', 'Skipped Gemini (missing API key)');
 }
